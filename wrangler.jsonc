@@ -13,8 +13,7 @@
     "html_handling": "auto-trailing-slash",
     "not_found_handling": "404-page"
   },
-  "observability": { "enabled": true }
-  // Cloudflare storage (R2), off for now. To switch on: create a bucket called desire-lines-files in
-  // Cloudflare (R2 > Create bucket), then remove the // from the next line. PDFs uploaded there appear at /files/<name>.
-  // ,"r2_buckets": [{ "binding": "FILES", "bucket_name": "desire-lines-files" }]
+  "observability": { "enabled": true },
+  // Cloudflare storage (R2): PDFs uploaded to the desire-lines-files bucket appear at /files/<name>.
+  "r2_buckets": [{ "binding": "FILES", "bucket_name": "desire-lines-files" }]
 }
