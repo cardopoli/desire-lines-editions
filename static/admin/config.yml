@@ -57,8 +57,6 @@ collections:
         label: PDF file
         widget: file
         required: false
-        media_folder: /static/downloads
-        public_folder: /downloads
         hint: "Three ways: upload a PDF (under 25 MB), OR paste a Dropbox share link (any size, shared as anyone with the link), OR paste another direct link. Lowercase file names with hyphens. Even page count = cover and back cover sit alone."
       - { name: download, label: Allow download, widget: boolean, default: true, required: false, hint: "Off = no Download PDF link (it can still be read online)." }
       - { name: page_layout, label: Page layout in the reader, widget: select, options: [{ label: "Automatic (scanned spreads shown one at a time)", value: auto }, { label: "Pair pages into spreads", value: spreads }, { label: "One page at a time", value: single }], default: auto, required: false }

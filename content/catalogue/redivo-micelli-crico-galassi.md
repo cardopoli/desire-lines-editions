@@ -17,7 +17,7 @@ price: ''
 sold_out: false
 buy_url: ''
 buy_label: ''
-pdf_url: /downloads/a3_poetry_07_2_pages_4_sides.pdf
+pdf_url: ''
 download: false
 page_layout: auto
 cover: ''
