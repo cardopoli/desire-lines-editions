@@ -9,12 +9,13 @@ async function draw(box) {
     const pdfjs = await load();
     const doc = await pdfjs.getDocument({ url: new URL(box.dataset.pdf, location.href).href, isEvalSupported: false, disableAutoFetch: true, disableStream: true, wasmUrl: ROOT + 'wasm/', standardFontDataUrl: ROOT + 'standard_fonts/' }).promise;
     const page = await doc.getPage(1), base = page.getViewport({ scale: 1 });
-    const scale = Math.min(box.clientWidth / base.width, box.clientHeight / base.height) * Math.min(devicePixelRatio || 1, 2);
+    box.style.aspectRatio = base.width + ' / ' + base.height;   // the frame takes the page's own shape, so the cover fills it
+    const scale = box.clientWidth / base.width * Math.min(devicePixelRatio || 1, 2);
     const view = page.getViewport({ scale }), c = document.createElement('canvas');
     c.width = Math.floor(view.width); c.height = Math.floor(view.height);
     await page.render({ canvasContext: c.getContext('2d'), viewport: view }).promise;
     c.setAttribute('aria-hidden', 'true');
-    box.append(c); requestAnimationFrame(() => c.classList.add('ready'));
+    box.append(c); requestAnimationFrame(() => { c.classList.add('ready'); box.classList.add('drawn'); });
     doc.destroy();
   } catch (e) { console.warn('Cover could not be drawn', e); }
 }

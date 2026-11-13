@@ -54,7 +54,10 @@ img { max-width: 100%; display: block; }
 .books { list-style: none; padding: 0 0 14vh; }
 .book { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: 5vw; padding: 7vh 0; border-top: 1px solid var(--line); align-items: start; }
 .cover { aspect-ratio: 3 / 4; display: grid; place-items: center; background: #e6e2d9; overflow: hidden; }
-.cover canvas, .cover img { display: block; max-width: 100%; max-height: 100%; box-shadow: 0 1px 3px rgba(0,0,0,.12); transition: transform .4s ease, opacity .4s ease; }
+.cover { transition: aspect-ratio .3s ease; }
+.cover.drawn, .cover:has(img) { background: none; }
+.cover canvas, .cover img { display: block; width: 100%; height: auto; box-shadow: 0 1px 3px rgba(0,0,0,.12); transition: transform .4s ease, opacity .4s ease; }
+.cover:has(img) { aspect-ratio: auto; }
 .cover canvas { opacity: 0; }
 .cover canvas.ready { opacity: 1; }
 a.cover:hover canvas, a.cover:hover img { transform: scale(1.02); }
