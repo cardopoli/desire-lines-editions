@@ -1,0 +1,37 @@
+{{ define "main" }}
+{{- .Store.Set "covers" true -}}
+{{- $reader := .OutputFormats.Get "reader" -}}
+<div class="wrap">
+  <article class="entry">
+    <a class="cover" {{ with .Params.pdf_url }}data-pdf="{{ . }}"{{ end }} {{ with $reader }}href="{{ .RelPermalink }}"{{ end }} aria-label="Read {{ .Title }} online">
+      {{ with .Params.cover }}<img src="{{ . }}" alt="Cover of {{ $.Title }}">{{ end }}
+    </a>
+    <div>
+      <p class="label" style="color:var(--dim);margin-bottom:18px"><a href="{{ "/catalogue/" | relURL }}" style="text-decoration:none">Catalogue</a>{{ with .Params.number }} · No. {{ . }}{{ end }}</p>
+      <h1>{{ .Title }}</h1>
+      {{ with .Params.subtitle }}<p class="by" style="margin-top:6px">{{ . }}</p>{{ end }}
+      {{ with .Params.author }}<p class="by">{{ . }}</p>{{ end }}
+
+      {{ if or .Params.pdf_url .Params.buy_url }}
+      <div class="actions">
+        {{ with .Params.pdf_url }}{{ with $reader }}<a class="btn solid" href="{{ .RelPermalink }}">Read online</a>{{ end }}{{ end }}
+        {{ with .Params.pdf_url }}<a class="btn" href="{{ . }}" target="_blank" rel="noopener">PDF</a>{{ end }}
+        {{ with .Params.buy_url }}<a class="btn" href="{{ . }}" target="_blank" rel="noopener">{{ $.Params.buy_label | default "Buy a copy" }}</a>{{ end }}
+      </div>
+      {{ end }}
+
+      <dl class="details">
+        {{ with .Params.year }}<dt>Published</dt><dd>{{ . }}</dd>{{ end }}
+        {{ with .Params.format }}<dt>Format</dt><dd>{{ . }}</dd>{{ end }}
+        {{ with .Params.pages }}<dt>Pages</dt><dd>{{ . }}</dd>{{ end }}
+        {{ with .Params.edition }}<dt>Edition</dt><dd>{{ . }}</dd>{{ end }}
+        {{ with .Params.design }}<dt>Design</dt><dd>{{ . }}</dd>{{ end }}
+        {{ with .Params.printer }}<dt>Printed by</dt><dd>{{ . }}</dd>{{ end }}
+        {{ with .Params.isbn }}<dt>ISBN</dt><dd>{{ . }}</dd>{{ end }}
+        {{ with .Params.price }}<dt>Price</dt><dd>{{ . }}</dd>{{ end }}
+      </dl>
+      <div class="prose">{{ .Content }}</div>
+    </div>
+  </article>
+</div>
+{{ end }}

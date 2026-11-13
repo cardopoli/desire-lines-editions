@@ -1,0 +1,103 @@
+# Sveltia CMS - Desire Lines Editions. Open https://desirelineseditions.co.uk/admin/
+# Sign-in goes through the same Cloudflare worker as This Was Tomorrow:
+# desirelineseditions.co.uk must be in the worker's ALLOWED_DOMAINS (if that variable is set).
+backend:
+  name: github
+  repo: cardopoli/desire-lines-editions
+  branch: main
+  base_url: https://sveltia-cms-auth.cardopoli.workers.dev
+
+site_url: https://desirelineseditions.co.uk
+display_url: https://desirelineseditions.co.uk
+logo:
+  src: https://desirelineseditions.co.uk/favicon.svg
+
+media_folder: static/images
+public_folder: /images
+
+media_libraries:
+  default:
+    config:
+      slugify_filename: true
+      transformations:
+        raster_image:
+          format: webp
+          quality: 85
+          width: 2048
+          height: 2048
+
+collections:
+
+  - name: catalogue
+    label: Catalogue
+    label_singular: Publication
+    folder: content/catalogue
+    create: true
+    extension: md
+    format: frontmatter
+    slug: "{{slug}}"
+    preview_path: "/catalogue/{{slug}}/"
+    summary: "{{number}} · {{title}}"
+    sortable_fields: [number, title, date]
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: subtitle, label: Subtitle, widget: string, required: false }
+      - { name: author, label: Author(s), widget: string, required: false }
+      - { name: number, label: Catalogue number, widget: number, value_type: int, required: false, hint: "1, 2, 3... shown as No. 1" }
+      - { name: date, label: Publication date, widget: datetime, time_format: false, date_format: "D MMM YYYY", hint: "Sets the order: newest first." }
+      - { name: year, label: Year shown, widget: string, required: false }
+      - { name: format, label: Format, widget: string, required: false, hint: "e.g. Folded sheet, A3 folding to A4" }
+      - { name: pages, label: Pages, widget: string, required: false }
+      - { name: edition, label: Edition, widget: string, required: false, hint: "e.g. 50 copies" }
+      - { name: design, label: Design, widget: string, required: false }
+      - { name: printer, label: Printed by, widget: string, required: false }
+      - { name: isbn, label: ISBN, widget: string, required: false, hint: "978-... with hyphens, as Nielsen gives it" }
+      - { name: price, label: Price, widget: string, required: false, hint: "e.g. £12, or Sold out" }
+      - { name: buy_url, label: Link to buy (optional), widget: string, required: false }
+      - { name: buy_label, label: Buy button text, widget: string, required: false, hint: "Blank = Buy a copy" }
+      - name: pdf_url
+        label: PDF file
+        widget: file
+        required: false
+        media_folder: /static/downloads
+        public_folder: /downloads
+        hint: "Upload the PDF to give it a Read online button. Lowercase file names with hyphens. Even page count = cover and back cover sit alone."
+      - { name: cover, label: Cover image (optional), widget: image, required: false, hint: "Leave empty and page 1 of the PDF is used." }
+      - { name: description, label: One line for search and sharing, widget: string, required: false }
+      - { name: body, label: About this publication, widget: markdown, modes: [rich_text, raw], required: false }
+      - { name: draft, label: Hide from the site, widget: boolean, default: false, required: false }
+
+  - name: pages
+    label: Pages
+    files:
+      - name: homepage
+        label: Homepage
+        file: content/_index.md
+        fields:
+          - { name: title, label: Title, widget: hidden }
+          - { name: heading, label: Big heading, widget: string }
+          - { name: description, label: One line for search and sharing, widget: string, required: false }
+          - { name: body, label: Statement, widget: markdown, modes: [rich_text, raw] }
+      - name: about
+        label: About
+        file: content/about.md
+        fields:
+          - { name: title, label: Title, widget: string }
+          - { name: description, label: One line for search and sharing, widget: string, required: false }
+          - { name: body, label: Text, widget: markdown, modes: [rich_text, raw] }
+      - name: catalogue
+        label: Catalogue intro
+        file: content/catalogue/_index.md
+        fields:
+          - { name: title, label: Title, widget: string }
+          - { name: description, label: One line for search and sharing, widget: string, required: false }
+          - { name: body, label: Intro (optional), widget: markdown, modes: [rich_text, raw], required: false }
+
+  - name: settings
+    label: Settings
+    files:
+      - name: site
+        label: Contact
+        file: data/site.yml
+        fields:
+          - { name: email, label: Public email address, widget: string, required: false, hint: "Shown in the footer on every page." }

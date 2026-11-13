@@ -1,0 +1,19 @@
+{{- /* Shelf of publications, newest first. Pass the pages. */ -}}
+{{- $pages := . -}}
+{{- if $pages }}
+<ul class="shelf">
+  {{- range $pages }}
+  <li>
+    <a href="{{ .RelPermalink }}">
+      <div class="cover" {{ with .Params.pdf_url }}data-pdf="{{ . }}"{{ end }}>
+        {{ with .Params.cover }}<img src="{{ . }}" alt="" loading="lazy">{{ end }}
+      </div>
+      <p class="name">{{ .Title }}</p>
+      <p class="meta">{{ with .Params.author }}{{ . }}{{ end }}{{ with .Params.year }} · {{ . }}{{ end }}</p>
+    </a>
+  </li>
+  {{- end }}
+</ul>
+{{- else }}
+<p class="empty label">Nothing published yet.</p>
+{{- end }}

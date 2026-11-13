@@ -1,0 +1,9 @@
+{{ define "main" }}
+{{- .Store.Set "covers" true -}}
+<div class="wrap">
+  <h1 class="page-title">{{ .Title }}</h1>
+  {{ with .Content }}<div class="prose" style="margin-bottom:6vh">{{ . }}</div>{{ end }}
+  <div class="section-head label"><span>{{ len .Pages }} {{ cond (eq (len .Pages) 1) "publication" "publications" }}</span><span>Newest first</span></div>
+  {{ partial "shelf.html" .Pages.ByDate.Reverse }}
+</div>
+{{ end }}

@@ -1,0 +1,47 @@
+baseURL = "https://desirelineseditions.co.uk/"
+languageCode = "en-gb"
+title = "Desire Lines Editions"
+disableKinds = ["taxonomy", "term"]
+
+[params]
+  description = "Desire Lines Editions, an imprint by Enrico Policardo."
+  publisher = "Desire Lines Editions"
+  contact = "Enrico Policardo"
+
+  # used by the reader and /manage/ (pieces from the TWT site kit)
+  [params.kit]
+    repo = "cardopoli/desire-lines-editions"
+    forge = "github"
+    git_host = "https://github.com"
+    branch = "main"
+    short_title = "DLE"
+    css = "css/site.css"
+
+[markup.goldmark.renderer]
+  unsafe = true
+
+# every catalogue entry gets a page (/catalogue/<entry>/) and a reader (/catalogue/<entry>/read.html)
+[outputFormats.reader]
+  mediaType = "text/html"
+  baseName = "read"
+  isHTML = true
+  permalinkable = true
+  noUgly = true
+  notAlternative = true
+
+[outputs]
+  page = ["html"]
+
+[permalinks.page]
+  catalogue = "/catalogue/:contentbasename/"
+
+# lets /manage/ show which commit the live site was built from (Cloudflare Pages or GitHub)
+[security.funcs]
+  getenv = ['^HUGO_', '^CI$', '^GITHUB_SHA$', '^CF_PAGES']
+
+# catalogue entries also get the reader page
+[[cascade]]
+  outputs = ["html", "reader"]
+  [cascade.target]
+    kind = "page"
+    path = "/catalogue/**"
