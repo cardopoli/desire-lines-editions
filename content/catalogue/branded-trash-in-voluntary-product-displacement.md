@@ -17,7 +17,7 @@ buy_label: ''
 pdf_url: https://www.dropbox.com/scl/fi/20qro4xzu5we2qijdglll/02_BT_Book-Preview_v11_smallest.pdf?rlkey=z5p47ab6ipe7xupvyzm3jq698&dl=0
 download: false
 page_layout: auto
-cover: ''
+cover: /images/bt3.webp
 description: ''
 draft: false
 ---
