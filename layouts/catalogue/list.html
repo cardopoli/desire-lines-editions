@@ -1,8 +1,38 @@
 {{ define "main" }}
 {{- .Store.Set "covers" true -}}
+{{- $n := len .Pages -}}
 <div class="wrap">
   <h1 class="page-title">{{ .Title }}</h1>
   {{ with .Content }}<div class="prose intro">{{ . }}</div>{{ end }}
+  <div class="shelf-head">
+    <span>{{ $n }} {{ cond (eq $n 1) "publication" "publications" }}</span>
+    {{ if gt $n 1 }}<label class="sort">Sort
+      <select id="sort" aria-label="Sort the catalogue">
+        <option value="new">Newest</option>
+        <option value="old">Oldest</option>
+        <option value="az">A–Z</option>
+        <option value="za">Z–A</option>
+      </select>
+    </label>{{ end }}
+  </div>
   {{ partial "shelf.html" .Pages.ByDate.Reverse }}
 </div>
+{{ if gt $n 1 }}
+<script>
+  // Sort the shelf in place; the choice is kept for this visit
+  (() => {
+    const sel = document.getElementById('sort'), list = document.getElementById('books');
+    if (!sel || !list) return;
+    const by = {
+      new: (a, b) => b.dataset.date.localeCompare(a.dataset.date) || a.dataset.order - b.dataset.order,
+      old: (a, b) => a.dataset.date.localeCompare(b.dataset.date) || b.dataset.order - a.dataset.order,
+      az: (a, b) => a.dataset.title.localeCompare(b.dataset.title, 'en'),
+      za: (a, b) => b.dataset.title.localeCompare(a.dataset.title, 'en'),
+    };
+    const apply = v => { [...list.children].sort(by[v] || by.new).forEach(li => list.append(li)); };
+    try { const saved = sessionStorage.getItem('dle-sort'); if (saved && by[saved]) { sel.value = saved; apply(saved); } } catch {}
+    sel.addEventListener('change', () => { apply(sel.value); try { sessionStorage.setItem('dle-sort', sel.value); } catch {} });
+  })();
+</script>
+{{ end }}
 {{ end }}

@@ -67,6 +67,17 @@ a.cover:hover canvas, a.cover:hover img { transform: scale(1.02); }
 .book h2 a:hover { text-decoration: underline; text-decoration-thickness: 2px; }
 .book .text > p { color: var(--dim); }
 .empty { padding: 6vh 0 14vh; color: var(--dim); }
+.book .excerpt { margin-top: 10px; font-family: var(--serif); font-style: italic; font-size: 17px; line-height: 1.3; color: var(--ink); }
+.book .meta { margin-top: 8px; }
+.shelf-head { display: flex; justify-content: space-between; align-items: center; gap: 18px; padding: 14px 0; border-top: 1px solid var(--line); color: var(--dim); }
+.shelf-head + .books { border-top: 0; padding-top: 4vh; }
+.sort { display: inline-flex; align-items: center; gap: 10px; }
+.sort select { font: inherit; color: var(--ink); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 6px 30px 6px 14px; cursor: pointer;
+  -webkit-appearance: none; appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position: calc(100% - 15px) 52%, calc(100% - 10px) 52%; background-size: 5px 5px; background-repeat: no-repeat; }
+.sort select:hover { border-color: var(--ink); }
+.more { padding: 0 0 14vh; margin-top: -8vh; }
 
 /* footer */
 .site-foot { display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap; color: var(--dim);

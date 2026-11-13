@@ -41,6 +41,8 @@ collections:
       - { name: number, label: Catalogue number, widget: number, value_type: int, required: false, hint: "1, 2, 3... shown as No. 1" }
       - { name: date, label: Publication date, widget: datetime, time_format: false, date_format: "D MMM YYYY", hint: "Sets the order: newest first." }
       - { name: year, label: Year shown, widget: string, required: false }
+      - { name: excerpt, label: Short description, widget: string, required: false, hint: "One line under the cover on the home page and catalogue. Leave empty for none." }
+      - { name: type, label: Type, widget: string, required: false, hint: "e.g. Artist's book, Photobook, Essay" }
       - { name: format, label: Format, widget: string, required: false, hint: "e.g. Folded sheet, A3 folding to A4" }
       - { name: pages, label: Pages, widget: string, required: false }
       - { name: edition, label: Edition, widget: string, required: false, hint: "e.g. 50 copies" }
@@ -48,6 +50,7 @@ collections:
       - { name: printer, label: Printed by, widget: string, required: false }
       - { name: isbn, label: ISBN, widget: string, required: false, hint: "978-... with hyphens, as Nielsen gives it" }
       - { name: price, label: Price, widget: string, required: false, hint: "e.g. £12, or Sold out" }
+      - { name: sold_out, label: Sold out, widget: boolean, default: false, required: false, hint: "Shows Sold out instead of the price." }
       - { name: buy_url, label: Link to buy (optional), widget: string, required: false }
       - { name: buy_label, label: Buy button text, widget: string, required: false, hint: "Blank = Buy a copy" }
       - name: pdf_url

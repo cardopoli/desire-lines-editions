@@ -1,9 +1,10 @@
-{{- /* Publications, newest first: cover, title, author and year. Everything else is in the reader's Info panel. */ -}}
+{{- /* Publications: cover, title, author and year, a line of blurb, type and price. Everything else is in the
+       reader's Info panel. Each card carries its date and title so the catalogue can be re-sorted in the browser. */ -}}
 {{- $pages := . -}}
 {{- if $pages }}
-<ul class="books">
-  {{- range $pages }}{{ $pdf := partial "pdf-src.html" . }}
-  <li class="book">
+<ul class="books" id="books">
+  {{- range $i, $p := $pages }}{{ $pdf := partial "pdf-src.html" . }}
+  <li class="book" data-date="{{ .Date.Format "2006-01-02" }}" data-title="{{ lower .Title }}" data-order="{{ $i }}">
     {{ if $pdf }}<a class="cover" href="{{ .RelPermalink }}" data-pdf="{{ $pdf }}" aria-label="Read {{ .Title }}">{{ else }}<div class="cover">{{ end }}
       {{ with .Params.cover }}<img src="{{ . }}" alt="" loading="lazy">{{ end }}
     {{ if $pdf }}</a>{{ else }}</div>{{ end }}
@@ -11,6 +12,10 @@
       <h2>{{ if $pdf }}<a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ else }}{{ .Title }}{{ end }}</h2>
       {{- $by := slice }}{{ with .Params.author }}{{ $by = $by | append . }}{{ end }}{{ with .Params.year }}{{ $by = $by | append . }}{{ end }}
       {{ with $by }}<p>{{ delimit . ", " }}</p>{{ end }}
+      {{ with .Params.excerpt }}<p class="excerpt">{{ . }}</p>{{ end }}
+      {{- $meta := slice }}{{ with .Params.type }}{{ $meta = $meta | append . }}{{ end }}
+      {{- if .Params.sold_out }}{{ $meta = $meta | append "Sold out" }}{{ else }}{{ with .Params.price }}{{ $meta = $meta | append . }}{{ end }}{{ end }}
+      {{ with $meta }}<p class="meta">{{ delimit . " · " }}</p>{{ end }}
     </div>
   </li>
   {{- end }}
