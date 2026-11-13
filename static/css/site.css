@@ -1,9 +1,6 @@
 /* Desire Lines Editions - plain, type-led, no labels. The publications bring their own look. */
-/* Akzidenz-Grotesk Pro Extended (Berthold) - same files as thiswastomorrow.co.uk */
-@font-face { font-family: 'AGProExt'; src: url('/fonts/akzidenzgroteskpro_ext.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
-@font-face { font-family: 'AGProExt'; src: url('/fonts/akzidenzgroteskpro_extitalic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
-@font-face { font-family: 'AGProExt'; src: url('/fonts/akzidenzgroteskpro_boldex.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
-@font-face { font-family: 'AGProExt'; src: url('/fonts/akzidenzgroteskpro_boldexit.woff2') format('woff2'); font-weight: 700; font-style: italic; font-display: swap; }
+/* Gilda Display (SIL Open Font Licence) - the name and titles, in capitals */
+@font-face { font-family: 'Gilda Display'; src: url('/fonts/gilda-display-latin-400-normal.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 /* EB Garamond (SIL Open Font Licence) - for reading: statements, notes, narrative */
 @font-face { font-family: 'EB Garamond'; src: url('/fonts/eb-garamond-latin-400-normal.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'EB Garamond'; src: url('/fonts/eb-garamond-latin-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
@@ -18,7 +15,8 @@
   --ink: #141414;
   --dim: #6b6862;
   --line: #d9d4ca;
-  --sans: 'AGProExt', 'Helvetica Neue', Arial, sans-serif;
+  --sans: 'Gilda Display', 'Didot', 'Bodoni 72', Georgia, serif;
+  --display: var(--sans);
   --serif: 'EB Garamond', Garamond, 'Times New Roman', serif;
   --mono: 'Space Mono', ui-monospace, Menlo, monospace;
   --gutter: max(22px, 4vw);
@@ -36,7 +34,7 @@ img { max-width: 100%; display: block; }
 /* header */
 .site-head { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; flex-wrap: wrap;
   padding: max(20px, env(safe-area-inset-top)) var(--gutter) 20px; border-bottom: 1px solid var(--line); }
-.wordmark { font-family: var(--sans); font-weight: 700; font-size: 13px; letter-spacing: 0; text-decoration: none; }
+.wordmark { font-family: var(--sans); font-weight: 400; font-size: 15px; letter-spacing: .06em; text-transform: uppercase; text-decoration: none; }
 .site-nav { display: flex; gap: 22px; font-size: 12px; }
 .site-nav a { text-decoration: none; color: var(--dim); padding: 6px 0; }
 .site-nav a:hover, .site-nav a[aria-current] { color: var(--ink); }
@@ -44,13 +42,13 @@ img { max-width: 100%; display: block; }
 /* text pages */
 .wrap { max-width: var(--wide); margin: 0 auto; padding: 0 var(--gutter); }
 .statement { padding: 14vh 0 10vh; max-width: 34em; }
-.statement h1 { font-family: var(--sans); font-size: clamp(28px, 3.8vw, 48px); line-height: 1.05; letter-spacing: -.02em; font-weight: 400; margin-bottom: .6em; }
+.statement h1 { font-family: var(--sans); font-size: clamp(30px, 4.2vw, 54px); line-height: 1.04; letter-spacing: .02em; text-transform: uppercase; font-weight: 400; margin-bottom: .6em; }
 .prose { max-width: 34em; font-family: var(--serif); font-size: 18px; line-height: 1.38; font-feature-settings: 'kern', 'liga', 'onum'; hanging-punctuation: first; }
 .prose em { font-style: italic; }
 .prose p, .prose ul, .prose ol { margin-bottom: 1em; }
 .prose ul, .prose ol { padding-left: 1.2em; }
-.prose h2 { font-family: var(--sans); font-size: 15px; margin: 2em 0 .5em; }
-.page-title { font-family: var(--sans); font-size: clamp(24px, 2.6vw, 32px); line-height: 1.1; letter-spacing: -.015em; font-weight: 400; padding: 10vh 0 5vh; }
+.prose h2 { font-family: var(--sans); font-size: 15px; letter-spacing: .05em; text-transform: uppercase; margin: 2em 0 .5em; }
+.page-title { font-family: var(--sans); font-size: clamp(24px, 2.6vw, 32px); line-height: 1.1; letter-spacing: .04em; text-transform: uppercase; font-weight: 400; padding: 10vh 0 5vh; }
 .placeholder { background: #fffbe0; outline: 1px dashed #c9b850; outline-offset: 2px; }
 
 /* catalogue: cover on the left, plain text on the right; the cover opens the reader */
@@ -65,7 +63,7 @@ img { max-width: 100%; display: block; }
 .cover canvas { opacity: 0; }
 .cover canvas.ready { opacity: 1; }
 a.cover:hover canvas, a.cover:hover img { transform: scale(1.02); }
-.book h2 { font-family: var(--sans); font-size: clamp(20px, 1.9vw, 24px); line-height: 1.15; letter-spacing: -.01em; font-weight: 400; margin-bottom: 6px; }
+.book h2 { font-family: var(--sans); font-size: clamp(20px, 1.9vw, 25px); line-height: 1.15; letter-spacing: .04em; text-transform: uppercase; font-weight: 400; margin-bottom: 6px; }
 .book h2 a { text-decoration: none; }
 .book h2 a:hover { text-decoration: underline; text-decoration-thickness: 2px; }
 .book .subtitle { font-family: var(--serif); font-size: 18px; line-height: 1.3; font-style: italic; margin-bottom: 12px; }
@@ -85,7 +83,7 @@ a.cover:hover canvas, a.cover:hover img { transform: scale(1.02); }
   body { font-size: 12px; }
   .statement { padding: 9vh 0 6vh; }
   .site-head { flex-wrap: nowrap; gap: 16px; }
-  .wordmark { font-size: 12px; } .wordmark, .site-nav { white-space: nowrap; }
+  .wordmark { font-size: 13px; letter-spacing: .04em; } .wordmark, .site-nav { white-space: nowrap; }
   .site-nav { font-size: 11.5px; }
   .site-nav { gap: 16px; }
   .prose { font-size: 17px; }
