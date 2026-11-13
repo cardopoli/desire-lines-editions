@@ -2,13 +2,17 @@
 title: About
 description: Publisher details for Desire Lines Editions.
 ---
-<p class="placeholder">YOUR WORDS HERE. A line or two about who runs the imprint.</p>
 
-## Publisher
+Desire lines are the paths nobody designed. They exist because they make sense.
+They cannot be anywhere else. We are given sharp corners and obstacles to work around. Desire lines go where instinct points.
+
+A soft anarchy: silent, relentless, non-violent.
+
+Publisher
 
 Desire Lines Editions\
-Enrico Policardo, trading as Desire Lines Editions\
 London, United Kingdom
+
 
 ## ISBNs
 
