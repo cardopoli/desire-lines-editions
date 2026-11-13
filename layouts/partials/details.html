@@ -1,0 +1,15 @@
+{{- /* A publication's details as plain sentences: shown in the reader's Info panel. Pass the page. */ -}}
+{{- $p := . -}}
+{{- $by := slice }}{{ with .Params.author }}{{ $by = $by | append . }}{{ end }}{{ with .Params.year }}{{ $by = $by | append . }}{{ end }}
+{{ with $by }}<p>{{ delimit . ", " }}</p>{{ end }}
+{{- $made := slice }}
+{{- with .Params.format }}{{ $made = $made | append . }}{{ end }}
+{{- with .Params.pages }}{{ $pg := printf "%v" . }}{{ $made = $made | append (cond (findRE `^\d+$` $pg) (printf "%s pages" $pg) $pg) }}{{ end }}
+{{- with .Params.edition }}{{ $made = $made | append (cond (findRE `^\d` .) (printf "Edition of %s" .) (strings.FirstUpper .)) }}{{ end }}
+{{ with $made }}<p>{{ delimit . ". " }}.</p>{{ end }}
+{{- $credits := slice }}
+{{- with .Params.design }}{{ $credits = $credits | append (printf "Designed by %s" .) }}{{ end }}
+{{- with .Params.printer }}{{ $credits = $credits | append (cond (gt (len $credits) 0) (printf "printed by %s" .) (printf "Printed by %s" .)) }}{{ end }}
+{{ with $credits }}<p>{{ delimit . ", " }}.</p>{{ end }}
+{{ with .Params.isbn }}<p>ISBN {{ . }}</p>{{ end }}
+{{ with .Params.price }}<p>{{ . }}</p>{{ end }}
