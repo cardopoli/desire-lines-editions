@@ -1,0 +1,13 @@
+// Cloudflare (Workers with static assets): builds the Hugo site and serves the public/ folder.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "desire-lines-editions",
+  "compatibility_date": "2026-11-10",
+  "build": { "command": "npm run build" },
+  "assets": {
+    "directory": "public",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  },
+  "observability": { "enabled": true }
+}

@@ -28,7 +28,7 @@
   <main>{{ block "main" . }}{{ end }}</main>
   <footer class="site-foot">
     <span>{{ site.Params.publisher }}</span>
-    <span>{{ with site.Data.site.email }}<a href="mailto:{{ . }}">{{ . }}</a>{{ end }}</span>
+    <span>{{ with hugo.Data.site.email }}<a href="mailto:{{ . }}">{{ . }}</a>{{ end }}</span>
   </footer>
   {{ if .Store.Get "covers" }}<script type="module" src="{{ "JS/covers.mjs" | relURL }}"></script>{{ end }}
 </body>

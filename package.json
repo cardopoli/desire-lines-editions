@@ -1,0 +1,12 @@
+{
+  "name": "desire-lines-editions",
+  "private": true,
+  "description": "Desire Lines Editions website. Hugo comes from the hugo-extended package so Cloudflare can build it.",
+  "scripts": {
+    "build": "hugo --minify",
+    "dev": "hugo server"
+  },
+  "devDependencies": {
+    "hugo-extended": "0.160.1"
+  }
+}
