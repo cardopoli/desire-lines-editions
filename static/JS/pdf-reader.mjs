@@ -46,7 +46,7 @@ async function startReader(root) {
   // how far the reader has pinched in (1 = not zoomed); used to redraw pages sharp
   const pinch = () => Math.max(1, Math.min((window.visualViewport && visualViewport.scale) || 1, 4));
   const landscape = () => vw() / vh() > 1.1;
-  const wide = () => landscape() || view === 'spread';
+  const wide = () => view === 'spread';   // Desire Lines: the Single / Spread switch works in every orientation
   const labelView = () => { if (viewBtn) { viewBtn.textContent = view === 'spread' ? 'Single' : 'Spread'; viewBtn.setAttribute('aria-label', view === 'spread' ? 'Show one page at a time' : 'Show two-page spreads'); } };
 
   // ---- quiet furniture -------------------------------------------------------

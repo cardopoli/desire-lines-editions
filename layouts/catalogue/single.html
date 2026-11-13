@@ -59,8 +59,7 @@
     .crumbs .here { color: var(--ink); overflow: hidden; text-overflow: ellipsis; }
     .crumbs .short { display: none; }
     .chrome.bottom { gap: 22px; }
-    /* the Spread / Single page switch only matters in portrait - landscape always shows spreads */
-    @media (orientation: landscape) { .view-toggle { display: none; } }
+    /* the Spread / Single page switch shows on every screen */
     @media (max-width: 600px) { .crumbs .long { display: none; } .crumbs .short { display: inline; } #pdf-fullscreen { display: none; } }
     .bar { display: flex; align-items: center; gap: 18px; pointer-events: auto; }
     .tbtn { width: 32px; height: 32px; display: grid !important; place-items: center; padding: 0 !important; }
