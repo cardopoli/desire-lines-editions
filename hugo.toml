@@ -26,3 +26,13 @@ disableKinds = ["taxonomy", "term"]
 # lets /manage/ show which commit the live site was built from (Cloudflare Pages or GitHub)
 [security.funcs]
   getenv = ['^HUGO_', '^CI$', '^GITHUB_SHA$', '^CF_PAGES']
+
+# private lookup of PDF sources for the Worker (/_pdf-map.json) - see layouts/index.pdfmap.json
+[outputFormats.pdfmap]
+  mediaType = "application/json"
+  baseName = "_pdf-map"
+  isPlainText = true
+  notAlternative = true
+
+[outputs]
+  home = ["html", "rss", "pdfmap"]

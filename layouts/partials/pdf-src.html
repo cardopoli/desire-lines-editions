@@ -1,5 +1,6 @@
-{{- /* Where the reader fetches a PDF from. Dropbox share links go through the site's own /dropbox proxy
-       (Dropbox blocks direct loading); uploads, /files/ (Cloudflare storage) and other links are used as they are. */ -}}
-{{- $u := . | default "" | strings.TrimSpace -}}
-{{- if findRE `^https://(www\.|dl\.)?dropbox(usercontent)?\.com/` $u }}{{ $u = printf "/dropbox?u=%s" (urlquery $u) }}{{ end -}}
+{{- /* The address a publication's PDF is served at: always /pdf/<entry>.pdf on this site.
+       The real source (an upload, a Dropbox share link, /files/ in Cloudflare storage, or another link) stays out of
+       the page: the Worker looks it up in /_pdf-map.json (built by layouts/index.pdfmap.json) and fetches it. */ -}}
+{{- $u := "" -}}
+{{- with .Params.pdf_url }}{{ if strings.TrimSpace . }}{{ $u = printf "/pdf/%s.pdf" $.File.ContentBaseName | relURL }}{{ end }}{{ end -}}
 {{- return $u -}}

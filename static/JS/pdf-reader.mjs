@@ -46,7 +46,11 @@ async function startReader(root) {
   // how far the reader has pinched in (1 = not zoomed); used to redraw pages sharp
   const pinch = () => Math.max(1, Math.min((window.visualViewport && visualViewport.scale) || 1, 4));
   const landscape = () => vw() / vh() > 1.1;
-  const wide = () => landscape() || view === 'spread';
+  // Desire Lines: the publication's layout setting (data-layout) - auto / spreads / single.
+  // auto: PDFs whose pages are already landscape (scanned spreads) show one page at a time and lose the switch.
+  const layout = root.dataset.layout || 'auto';
+  let forced = null;   // 'page' when one page at a time is fixed for this PDF
+  const wide = () => forced ? forced === 'spread' : view === 'spread';
   const labelView = () => { if (viewBtn) { viewBtn.textContent = view === 'spread' ? 'Single' : 'Spread'; viewBtn.setAttribute('aria-label', view === 'spread' ? 'Show one page at a time' : 'Show two-page spreads'); } };
 
   // ---- quiet furniture -------------------------------------------------------
@@ -266,12 +270,15 @@ async function startReader(root) {
   wake();
   try {
     const source = normaliseSource(root.dataset.pdfUrl, location.href);
-    $('pdf-original').href = source;
+    if ($('pdf-original')) $('pdf-original').href = source;
     const pdfjs = await import(PDFJS_ROOT + 'build/pdf.min.mjs');
     pdfjs.GlobalWorkerOptions.workerSrc = PDFJS_ROOT + 'build/pdf.worker.min.mjs';
     doc = await pdfjs.getDocument({ url: source, isEvalSupported: false, disableAutoFetch: true, disableStream: true,
       cMapUrl: PDFJS_ROOT + 'cmaps/', cMapPacked: true, standardFontDataUrl: PDFJS_ROOT + 'standard_fonts/', wasmUrl: PDFJS_ROOT + 'wasm/' }).promise;
     current = clampPage(current, doc.numPages);
+    if (layout === 'single') forced = 'page';
+    else if (layout === 'auto') { const s = await size(Math.min(2, doc.numPages)); if (s.width / s.height > 1.05) forced = 'page'; }
+    if (forced && viewBtn) { viewBtn.hidden = true; const sep = viewBtn.previousElementSibling; if (sep && sep.classList.contains('sep')) sep.hidden = true; }
     await show();
   } catch (error) {
     console.warn(error);

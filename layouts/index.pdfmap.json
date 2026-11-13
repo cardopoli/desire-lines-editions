@@ -1,0 +1,7 @@
+{{- /* Private lookup for the Worker: entry -> real PDF source. The Worker refuses to serve this file to visitors. */ -}}
+{{- $m := dict -}}
+{{- range where site.RegularPages "Section" "catalogue" -}}
+  {{- $name := .File.ContentBaseName -}}
+  {{- with .Params.pdf_url }}{{ $m = merge $m (dict $name (strings.TrimSpace .)) }}{{ end -}}
+{{- end -}}
+{{- $m | jsonify -}}
