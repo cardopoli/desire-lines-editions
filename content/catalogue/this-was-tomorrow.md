@@ -18,4 +18,8 @@ pdf_url: https://www.dropbox.com/scl/fi/tofff27z236xj61fbobw2/TWT-PORTO_SMALL.pd
 description: This Was Tomorrow, the first publication from Desire Lines Editions.
 ---
 
-<p class="placeholder">STAND-IN: the reader is showing the THDVLPR PDF from the This Was Tomorrow site until the final file is ready. Swap the PDF and write a few lines about the publication in Sveltia under Catalogue.</p>
+The words are by Judith Martin, architectural conservationist and historian. The design and production? That’s a collaboration between me, Richard “Foe” Grainger (whose layout instincts are wicked), and the excellent Porto-based Devity Studio.
+
+This version isn’t just a reprint—it’s a reimagining. Less book-as-object, more object-in-motion. A tool, a companion, a field recorder for stray thoughts and sharp provocations. It’s playful on purpose, a little rough in the right places. Designed to clash with the seriousness of its themes—and to help shake something loose.
+
+Because the point of this book has never been just about buildings or preservation. It’s about utopia—not as some unreachable dream, but as a tool. A lens. A way of thinking better futures into existence. And if you haven’t noticed, we desperately need to.
