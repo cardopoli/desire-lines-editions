@@ -1,4 +1,5 @@
 {{- /* A publication = its reader (the silent reader from the TWT site kit), styled like the rest of the site. */ -}}
+{{- $pdf := partial "pdf-src.html" .Params.pdf_url -}}
 <!DOCTYPE html>
 <html lang="en-gb">
 <head>
@@ -91,7 +92,7 @@
   </style>
 </head>
 <body>
-  <main class="reader" id="pdf-reader" data-pdf-url="{{ .Params.pdf_url }}" tabindex="0" aria-label="{{ .Title }} - use the arrow keys to turn pages">
+  <main class="reader" id="pdf-reader" data-pdf-url="{{ $pdf }}" tabindex="0" aria-label="{{ .Title }} - use the arrow keys to turn pages">
     <div class="stage" id="pdf-stage"><div class="pages waiting" id="pdf-pages"></div></div>
 
     <div class="chrome top">
@@ -102,7 +103,7 @@
       </nav>
       <div class="right">
         <button type="button" id="pdf-fullscreen" hidden>Full screen</button>
-        <a id="pdf-original" href="{{ .Params.pdf_url }}" target="_blank" rel="noopener">Download PDF</a>
+        <a id="pdf-original" href="{{ $pdf }}" target="_blank" rel="noopener">Download PDF</a>
       </div>
     </div>
     <div class="chrome bottom"><div class="bar">
@@ -116,8 +117,8 @@
     </div></div>
     <p class="sr" id="pdf-status" role="status" aria-live="polite"></p>
 
-    <div class="fallback"><p>This reader could not open the file.<br><br><a href="{{ .Params.pdf_url }}">Open the PDF ↗</a></p></div>
-    <noscript><div style="position:absolute;inset:0;display:grid;place-items:center"><a href="{{ .Params.pdf_url }}" style="color:#141414">Open the PDF ↗</a></div></noscript>
+    <div class="fallback"><p>This reader could not open the file.<br><br><a href="{{ $pdf }}">Open the PDF ↗</a></p></div>
+    <noscript><div style="position:absolute;inset:0;display:grid;place-items:center"><a href="{{ $pdf }}" style="color:#141414">Open the PDF ↗</a></div></noscript>
   </main>
   <script type="module" src="{{ "JS/pdf-reader.mjs" | relURL }}"></script>
 </body>

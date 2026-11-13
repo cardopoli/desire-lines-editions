@@ -1,0 +1,5 @@
+{{- /* Where the reader fetches a PDF from. Dropbox share links go through the site's own /dropbox proxy
+       (Dropbox blocks direct loading); uploads, /files/ (Cloudflare storage) and other links are used as they are. */ -}}
+{{- $u := . | default "" | strings.TrimSpace -}}
+{{- if findRE `^https://(www\.|dl\.)?dropbox(usercontent)?\.com/` $u }}{{ $u = printf "/dropbox?u=%s" (urlquery $u) }}{{ end -}}
+{{- return $u -}}

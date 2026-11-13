@@ -2,9 +2,9 @@
 {{- $pages := . -}}
 {{- if $pages }}
 <ul class="books">
-  {{- range $pages }}{{ $p := . }}
+  {{- range $pages }}{{ $p := . }}{{ $pdf := partial "pdf-src.html" .Params.pdf_url }}
   <li class="book">
-    {{ if .Params.pdf_url }}<a class="cover" href="{{ .RelPermalink }}" data-pdf="{{ .Params.pdf_url }}" aria-label="Read {{ .Title }}">{{ else }}<div class="cover">{{ end }}
+    {{ if .Params.pdf_url }}<a class="cover" href="{{ .RelPermalink }}" data-pdf="{{ $pdf }}" aria-label="Read {{ .Title }}">{{ else }}<div class="cover">{{ end }}
       {{ with .Params.cover }}<img src="{{ . }}" alt="" loading="lazy">{{ end }}
     {{ if .Params.pdf_url }}</a>{{ else }}</div>{{ end }}
     <div class="text">
@@ -25,7 +25,7 @@
       {{ with .Params.price }}<p>{{ . }}</p>{{ end }}
       {{ with .Content }}<div class="prose">{{ . }}</div>{{ end }}
       <p class="links">
-        {{- with .Params.pdf_url }}<a href="{{ $p.RelPermalink }}">Read</a> <a href="{{ . }}" target="_blank" rel="noopener">Download PDF</a>{{ end -}}
+        {{- with $pdf }}<a href="{{ $p.RelPermalink }}">Read</a> <a href="{{ . }}" target="_blank" rel="noopener">Download PDF</a>{{ end -}}
         {{ with .Params.buy_url }} <a href="{{ . }}" target="_blank" rel="noopener">{{ $p.Params.buy_label | default "Buy a copy" }}</a>{{ end }}
       </p>
     </div>

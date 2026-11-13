@@ -1,13 +1,20 @@
 // Cloudflare (Workers with static assets): builds the Hugo site and serves the public/ folder.
+// src/worker.js only handles /dropbox and /files/ (PDFs from Dropbox or Cloudflare storage).
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "desire-lines-editions",
+  "main": "src/worker.js",
   "compatibility_date": "2026-11-10",
   "build": { "command": "npm run build" },
   "assets": {
     "directory": "public",
+    "binding": "ASSETS",
+    "run_worker_first": ["/dropbox", "/files/*"],
     "html_handling": "auto-trailing-slash",
     "not_found_handling": "404-page"
   },
   "observability": { "enabled": true }
+  // Cloudflare storage (R2), off for now. To switch on: create a bucket called desire-lines-files in
+  // Cloudflare (R2 > Create bucket), then remove the // from the next line. PDFs uploaded there appear at /files/<name>.
+  // ,"r2_buckets": [{ "binding": "FILES", "bucket_name": "desire-lines-files" }]
 }

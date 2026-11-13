@@ -61,7 +61,7 @@ collections:
         required: false
         media_folder: /static/downloads
         public_folder: /downloads
-        hint: "Upload the PDF to give it a Read online button. Lowercase file names with hyphens. Even page count = cover and back cover sit alone."
+        hint: "Three ways: upload a PDF (under 25 MB), OR paste a Dropbox share link (any size, shared as anyone with the link), OR paste another direct link. Lowercase file names with hyphens. Even page count = cover and back cover sit alone."
       - { name: cover, label: Cover image (optional), widget: image, required: false, hint: "Leave empty and page 1 of the PDF is used." }
       - { name: description, label: One line for search and sharing, widget: string, required: false }
       - { name: body, label: About this publication, widget: markdown, modes: [rich_text, raw], required: false }
