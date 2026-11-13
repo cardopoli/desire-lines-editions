@@ -19,12 +19,7 @@ media_libraries:
   default:
     config:
       slugify_filename: true
-      transformations:
-        raster_image:
-          format: webp
-          quality: 85
-          width: 2048
-          height: 2048
+      # no automatic WebP conversion: Safari can't make WebP, so uploads from Safari were lost
 
 collections:
 
