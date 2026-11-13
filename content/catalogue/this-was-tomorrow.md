@@ -4,14 +4,14 @@ subtitle: Is This the Future We Were Dreaming Of?
 author: Enrico Policardo
 number: 1
 date: 2026-11-01
-year: '2026'
-format: Folded sheet, A3 folding to A4
-pages: ''
+year: '2024'
+format: Saddle stitch + rubber band + folds
+pages: 64 (including cover) + loose sheets
 edition: 50 copies
-design: Richard Foe
-printer: ''
+design: Richard Foe Grainger
+printer: Devity Studio, Porto
 isbn: ''
-price: ''
+price: £ 24.99
 buy_url: ''
 buy_label: ''
 pdf_url: https://thiswastomorrow.co.uk/downloads/THDVLPR_v04_small.pdf
