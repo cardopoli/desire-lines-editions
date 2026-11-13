@@ -16,7 +16,7 @@ buy_url: ''
 buy_label: ''
 pdf_url: https://www.dropbox.com/scl/fi/tofff27z236xj61fbobw2/TWT-PORTO_SMALL.pdf?rlkey=3j36xmjsik36pdukbixn0a7bk&dl=0
 download: false
-cover: /images/small-scan-cover.webp
+cover: /images/this-was-tomorrow-cover.jpg
 description: This Was Tomorrow, the first publication from Desire Lines Editions.
 ---
 
