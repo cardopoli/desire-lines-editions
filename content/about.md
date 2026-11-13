@@ -1,23 +1,20 @@
 ---
 title: About
-description: Publisher details for Desire Lines Editions.
+description: Who
 ---
 
-Desire lines are the paths nobody designed. They exist because they make sense.
-They cannot be anywhere else. We are given sharp corners and obstacles to work around. Desire lines go where instinct points.
+_Desire lines are the paths nobody designed. They exist because they make sense._
+_They cannot be anywhere else. We are given sharp corners and obstacles to work around. Desire lines go where instinct points._
 
-A soft anarchy: silent, relentless, non-violent.
+_A soft anarchy: silent, relentless, non-violent._
 
 Publisher
 
 Desire Lines Editions\
 London, United Kingdom
 
-
 ## ISBNs
 
-<p class="placeholder">ISBN prefix and Nielsen BookData details go here once the block is registered.</p>
+# Contact
 
-## Contact
-
-<p class="placeholder">Email address goes here. Set it once in Sveltia under Settings and it also appears in the footer.</p>
+For info and inquiries please write to info@desirelineseditions.co.uk
