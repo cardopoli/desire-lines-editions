@@ -13,8 +13,9 @@
   <meta property="og:url" content="{{ .Permalink }}">
   {{ with .Params.cover }}<meta property="og:image" content="{{ . | absURL }}"><meta name="twitter:card" content="summary_large_image">{{ end }}
   <link rel="icon" href="{{ "favicon.svg" | relURL }}" type="image/svg+xml">
-  <meta name="theme-color" content="#5f6b55">
+  <meta name="theme-color" content="{{ hugo.Data.design.background | default "#5f6b55" }}">
   <link rel="stylesheet" href="{{ "css/site.css" | relURL }}">
+  {{ partial "design.html" . }}
 </head>
 <body>
   <header class="site-head">

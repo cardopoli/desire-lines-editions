@@ -4,7 +4,7 @@
 <html lang="en-gb">
 <head>
   <meta charset="utf-8">
-  <meta name="theme-color" content="#5f6b55">
+  <meta name="theme-color" content="{{ hugo.Data.design.background | default "#5f6b55" }}">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>{{ .Title }} · {{ site.Title }}</title>
   {{- $desc := .Site.Params.description -}}{{- with .Params.description }}{{- $desc = . -}}{{- end }}
@@ -20,10 +20,11 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/pdfjs-dist@5.4.296/build/pdf.min.mjs" crossorigin>
   {{- with site.Params.kit.css }}<link rel="stylesheet" href="{{ . | relURL }}">{{ end }}
+  {{ partial "design.html" . }}
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :where(:root){--sans:system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;--mono:ui-monospace,'SF Mono',Menlo,'Courier New',monospace}
-    html, body { height: 100%; background: #5f6b55; color: #090c0b; overflow: hidden; color-scheme: light; touch-action: pan-x pan-y; }   /* no browser zoom: the reader zooms */
+    html, body { height: 100%; background: var(--paper); color: var(--ink); overflow: hidden; color-scheme: light; touch-action: pan-x pan-y; }   /* no browser zoom: the reader zooms */
     body { font-family: var(--sans); -webkit-font-smoothing: antialiased; }
 
     /* the stage is the whole screen; pages sit in the middle of it */
@@ -46,16 +47,16 @@
     /* the only furniture: three small lines of type, gone when you stop moving */
     .chrome { position: absolute; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center;
               padding: 18px max(22px, env(safe-area-inset-right)) 18px max(22px, env(safe-area-inset-left));
-              font-family: var(--mono); font-size: 12px; color: rgba(9,12,11,.8);
+              font-family: var(--mono); font-size: 12px; color: var(--dim);
               transition: opacity .6s ease; pointer-events: none; z-index: 2; }
     .chrome.top { top: 0; padding-top: max(18px, env(safe-area-inset-top)); }
     .chrome.bottom { bottom: 0; justify-content: center; padding-bottom: max(18px, env(safe-area-inset-bottom)); font-variant-numeric: tabular-nums; }
     .chrome a, .chrome button { pointer-events: auto; color: inherit; text-decoration: none; background: none; border: 0; font: inherit; letter-spacing: inherit; text-transform: inherit; cursor: pointer; padding: 6px 0; }
-    .chrome a:hover, .chrome button:hover { color: #090c0b; }
+    .chrome a:hover, .chrome button:hover { color: var(--ink); }
     .chrome .right { display: flex; gap: 22px; }
     .crumbs { display: flex; align-items: center; gap: 10px; min-width: 0; white-space: nowrap; }
     .crumbs i { font-style: normal; opacity: .45; }
-    .crumbs .here { color: #090c0b; overflow: hidden; text-overflow: ellipsis; }
+    .crumbs .here { color: var(--ink); overflow: hidden; text-overflow: ellipsis; }
     .crumbs .short { display: none; }
     .chrome.bottom { gap: 22px; }
     /* the Spread / Single page switch only matters in portrait - landscape always shows spreads */
@@ -65,15 +66,15 @@
     .tbtn { width: 32px; height: 32px; display: grid !important; place-items: center; padding: 0 !important; }
     .tbtn svg { width: 18px; height: 18px; }
     .tbtn:disabled { opacity: .3; cursor: default; }
-    .sep { width: 1px; height: 18px; background: rgba(9,12,11,.22); }
+    .sep { width: 1px; height: 18px; background: var(--line); }
     .touch-only { display: none; }
     /* phones and tablets: controls stay put in a small dark pill you can always see and hit */
     @media (hover: none) {
       .touch-only { display: block; }
-      .chrome { color: #090c0b; }
-      .chrome.top { background: linear-gradient(rgba(95,107,85,.92), rgba(95,107,85,0)); padding-bottom: 28px; }
+      .chrome { color: var(--ink); }
+      .chrome.top { background: linear-gradient(color-mix(in srgb, var(--paper) 92%, transparent), color-mix(in srgb, var(--paper) 0%, transparent)); padding-bottom: 28px; }
       .chrome.bottom { padding-left: 10px; padding-right: 10px; }
-      .bar { gap: 0; padding: 2px 6px; border-radius: 999px; white-space: nowrap; max-width: 100%; background: rgba(95,107,85,.88); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border: 1px solid rgba(9,12,11,.22); font-size: 12px; }
+      .bar { gap: 0; padding: 2px 6px; border-radius: 999px; white-space: nowrap; max-width: 100%; background: color-mix(in srgb, var(--paper) 88%, transparent); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border: 1px solid var(--line); font-size: 12px; }
       .tbtn { width: 44px; height: 44px; }
       .tbtn svg { width: 20px; height: 20px; }
       #pdf-count { padding: 0 2px; min-width: 62px; text-align: center; }
@@ -83,10 +84,10 @@
     @media (hover: none) and (max-width: 380px) { .tbtn { width: 38px; height: 44px; } .bar { padding: 2px 2px; } #pdf-count { min-width: 54px; letter-spacing: 0; } .view-toggle { letter-spacing: .5px; padding: 0 8px 0 4px !important; } .sep { margin: 0 2px; } }
     .reader.idle .chrome { opacity: 0; }
     .reader.idle .chrome a, .reader.idle .chrome button { pointer-events: none; }
-    :focus-visible { outline: 1px solid #090c0b; outline-offset: 4px; }
+    :focus-visible { outline: 1px solid var(--ink); outline-offset: 4px; }
 
-    .fallback { position: absolute; inset: 0; display: none; place-items: center; text-align: center; font-family: var(--mono); font-size: 12px; color: rgba(9,12,11,.8); }
-    .fallback a { color: #090c0b; }
+    .fallback { position: absolute; inset: 0; display: none; place-items: center; text-align: center; font-family: var(--mono); font-size: 12px; color: var(--dim); }
+    .fallback a { color: var(--ink); }
     .reader.failed .fallback { display: grid; }
     .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
   </style>
@@ -118,7 +119,7 @@
     <p class="sr" id="pdf-status" role="status" aria-live="polite"></p>
 
     <div class="fallback"><p>This reader could not open the file.<br><br><a href="{{ $pdf }}">Open the PDF ↗</a></p></div>
-    <noscript><div style="position:absolute;inset:0;display:grid;place-items:center"><a href="{{ $pdf }}" style="color:#090c0b">Open the PDF ↗</a></div></noscript>
+    <noscript><div style="position:absolute;inset:0;display:grid;place-items:center"><a href="{{ $pdf }}" style="color:var(--ink)">Open the PDF ↗</a></div></noscript>
   </main>
   <script type="module" src="{{ "JS/pdf-reader.mjs" | relURL }}"></script>
 </body>

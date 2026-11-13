@@ -1,0 +1,18 @@
+# Fonts kept in the repo (static/fonts). All free, SIL Open Font Licence.
+# Settings > Design in Sveltia picks from these by name, or uses a Google Fonts name instead.
+# weight = the weight used for titles; fallback = what shows while it loads.
+Gilda Display:     { weight: 400, fallback: "Didot, Georgia, serif", files: [{ file: gilda-display-latin-400-normal.woff2, weight: 400 }] }
+Gloock:            { weight: 400, fallback: "Georgia, serif", files: [{ file: gloock-latin-400-normal.woff2, weight: 400 }] }
+Mazius Display:    { weight: 700, fallback: "Georgia, serif", files: [{ file: mazius-display-bold.woff2, weight: 700 }] }
+Basteleur:         { weight: 700, fallback: "Georgia, serif", files: [{ file: basteleur-bold.woff2, weight: 700 }] }
+Fraunces:          { weight: 600, fallback: "Georgia, serif", files: [{ file: fraunces-latin-600-normal.woff2, weight: 600 }] }
+Young Serif:       { weight: 400, fallback: "Georgia, serif", files: [{ file: young-serif-latin-400-normal.woff2, weight: 400 }] }
+Bellefair:         { weight: 400, fallback: "Georgia, serif", files: [{ file: bellefair-latin-400-normal.woff2, weight: 400 }] }
+Cormorant SC:      { weight: 500, fallback: "Georgia, serif", files: [{ file: cormorant-sc-latin-500-normal.woff2, weight: 500 }] }
+Marcellus:         { weight: 400, fallback: "Georgia, serif", files: [{ file: marcellus-latin-400-normal.woff2, weight: 400 }] }
+EB Garamond:       { weight: 500, fallback: "Garamond, Georgia, serif", files: [{ file: eb-garamond-latin-400-normal.woff2, weight: 400 }, { file: eb-garamond-latin-400-italic.woff2, weight: 400, style: italic }, { file: eb-garamond-latin-500-normal.woff2, weight: 500 }, { file: eb-garamond-latin-500-italic.woff2, weight: 500, style: italic }] }
+Newsreader:        { weight: 400, fallback: "Georgia, serif", files: [{ file: newsreader-latin-400-normal.woff2, weight: 400 }, { file: newsreader-latin-400-italic.woff2, weight: 400, style: italic }] }
+Space Mono:        { weight: 400, fallback: "ui-monospace, Menlo, monospace", files: [{ file: space-mono-latin-400-normal.woff2, weight: 400 }, { file: space-mono-latin-400-italic.woff2, weight: 400, style: italic }, { file: space-mono-latin-700-normal.woff2, weight: 700 }] }
+Syne:              { weight: 600, fallback: "system-ui, sans-serif", files: [{ file: syne-latin-400-normal.woff2, weight: 400 }, { file: syne-latin-600-normal.woff2, weight: 600 }] }
+Instrument Sans:   { weight: 500, fallback: "system-ui, sans-serif", files: [{ file: instrument-sans-latin-400-normal.woff2, weight: 400 }, { file: instrument-sans-latin-500-normal.woff2, weight: 500 }] }
+Space Grotesk:     { weight: 500, fallback: "system-ui, sans-serif", files: [{ file: space-grotesk-latin-400-normal.woff2, weight: 400 }, { file: space-grotesk-latin-500-normal.woff2, weight: 500 }] }

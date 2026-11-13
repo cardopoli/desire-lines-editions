@@ -17,6 +17,10 @@ Hugo site, edited in Sveltia (`/admin/`), built and served by Cloudflare Pages.
 
 Footer email: Settings › Contact.
 
+Colours, fonts and sizes: Settings › Design (`data/design.yml`). Fonts kept in the repo are listed in `data/fonts.yml`
+(files in `static/fonts`, all SIL Open Font Licence); any Google font can be used instead by name or link.
+The values are written into every page by `layouts/partials/design.html`.
+
 ## Cloudflare Pages settings
 
 Workers & Pages › Create › Pages › Connect to Git › `cardopoli/desire-lines-editions`

@@ -1,0 +1,35 @@
+{{- /* Colours and fonts from Settings > Design in Sveltia (data/design.yml). Fonts come from data/fonts.yml
+       (kept in the repo) or, when a Google Fonts name or link is given, from Google Fonts. */ -}}
+{{- $d := hugo.Data.design | default dict -}}
+{{- $lib := hugo.Data.fonts | default dict -}}
+{{- $faces := "" -}}{{- $google := slice -}}{{- $vars := dict -}}
+{{- $roles := slice (dict "role" "display" "pick" $d.title_font "g" $d.title_google "def" "Gilda Display") (dict "role" "ui" "pick" $d.menu_font "g" $d.menu_google "def" "Space Mono") (dict "role" "serif" "pick" $d.reading_font "g" $d.reading_google "def" "EB Garamond") -}}
+{{- $seen := dict -}}
+{{- range $roles -}}
+  {{- $g := .g | default "" | strings.TrimSpace -}}
+  {{- /* accept a name, a fonts.google.com/specimen/Name link, or a fonts.googleapis.com/css2?family=Name link */ -}}
+  {{- with findRESubmatch `specimen/([^/?#]+)` $g 1 }}{{ $g = index (index . 0) 1 }}{{ end -}}
+  {{- with findRESubmatch `family=([^:&]+)` $g 1 }}{{ $g = index (index . 0) 1 }}{{ end -}}
+  {{- $g = replace (replace $g "+" " ") "%20" " " | strings.TrimSpace -}}
+  {{- if $g -}}
+    {{- /* one link per font, regular weight only: asking Google for a weight a font lacks breaks the whole request */ -}}
+    {{- $google = $google | append (printf "https://fonts.googleapis.com/css2?family=%s&display=swap" (replace $g " " "+")) -}}
+    {{- $vars = merge $vars (dict .role (printf "'%s', Georgia, serif" $g) (printf "%s-weight" .role) "400") -}}
+  {{- else -}}
+    {{- $name := .pick | default .def -}}{{- $f := index $lib $name -}}
+    {{- if not $f }}{{ $name = .def }}{{ $f = index $lib $name }}{{ end -}}
+    {{- if not (index $seen $name) -}}
+      {{- $seen = merge $seen (dict $name true) -}}
+      {{- range $f.files -}}
+        {{- $faces = printf "%s@font-face{font-family:'%s';src:url('%s') format('woff2');font-weight:%v;font-style:%s;font-display:swap}" $faces $name (printf "/fonts/%s" .file | relURL) .weight (.style | default "normal") -}}
+      {{- end -}}
+    {{- end -}}
+    {{- $vars = merge $vars (dict .role (printf "'%s', %s" $name $f.fallback) (printf "%s-weight" .role) (string $f.weight)) -}}
+  {{- end -}}
+{{- end -}}
+{{- with $google }}<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>{{ range . }}<link rel="stylesheet" href="{{ . | safeURL }}">{{ end }}{{ end }}
+{{- $sizes := dict "Smaller" "0.88" "Normal" "1" "Larger" "1.14" -}}
+{{- $bg := $d.background | default "#5f6b55" -}}{{- $ink := $d.text | default "#090c0b" -}}
+<style>{{ $faces | safeCSS }}
+:root{--paper:{{ $bg | safeCSS }};--ink:{{ $ink | safeCSS }};--dim:color-mix(in srgb,{{ $ink | safeCSS }} 80%,transparent);--line:color-mix(in srgb,{{ $ink | safeCSS }} 22%,transparent);--cover-bg:color-mix(in srgb,{{ $ink | safeCSS }} 8%,transparent);--display:{{ index $vars "display" | safeCSS }};--display-weight:{{ index $vars "display-weight" }};--ui:{{ index $vars "ui" | safeCSS }};--serif:{{ index $vars "serif" | safeCSS }};--title-case:{{ cond ($d.title_capitals | default false) "uppercase" "none" }};--title-track:{{ cond ($d.title_capitals | default false) ".04em" "-.01em" }};--ts:{{ index $sizes ($d.title_size | default "Normal") | default "1" }};--us:{{ index $sizes ($d.text_size | default "Normal") | default "1" }}}</style>
+{{- /**/ -}}

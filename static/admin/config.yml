@@ -96,6 +96,21 @@ collections:
   - name: settings
     label: Settings
     files:
+      - name: design
+        label: Design
+        file: data/design.yml
+        fields:
+          - { name: background, label: Background colour, widget: color, hint: "Moss is #5f6b55" }
+          - { name: text, label: Text colour, widget: color, hint: "Secondary text and lines follow it automatically. Keep it far from the background so it stays readable." }
+          - { name: title_font, label: Font for the name and titles, widget: select, options: [Gilda Display, Gloock, Mazius Display, Basteleur, Fraunces, Young Serif, Bellefair, Cormorant SC, Marcellus, EB Garamond], default: Gilda Display }
+          - { name: title_google, label: ...or a Google font for titles, widget: string, required: false, hint: "Optional: any font from fonts.google.com - type its name (e.g. Syne) or paste its page link. Overrides the list above. Leave empty to use the list." }
+          - { name: title_capitals, label: Titles in capitals, widget: boolean, default: true }
+          - { name: title_size, label: Title size, widget: select, options: [Smaller, Normal, Larger], default: Normal }
+          - { name: menu_font, label: Font for the menu and details, widget: select, options: [Space Mono, Syne, Instrument Sans, Space Grotesk, EB Garamond], default: Space Mono }
+          - { name: menu_google, label: ...or a Google font for the menu, widget: string, required: false, hint: "Optional: any font from fonts.google.com - type its name (e.g. Syne) or paste its page link. Overrides the list above. Leave empty to use the list." }
+          - { name: reading_font, label: Font for reading (statement and notes), widget: select, options: [EB Garamond, Newsreader, Young Serif, Fraunces], default: EB Garamond }
+          - { name: reading_google, label: ...or a Google font for reading, widget: string, required: false, hint: "Optional: any font from fonts.google.com - type its name (e.g. Syne) or paste its page link. Overrides the list above. Leave empty to use the list." }
+          - { name: text_size, label: Menu and details size, widget: select, options: [Smaller, Normal, Larger], default: Normal }
       - name: site
         label: Contact
         file: data/site.yml

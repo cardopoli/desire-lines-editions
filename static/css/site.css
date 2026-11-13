@@ -1,69 +1,67 @@
-/* Desire Lines Editions - plain, type-led, no labels. The publications bring their own look. */
-/* Gilda Display (SIL Open Font Licence) - the name and titles, in capitals */
-@font-face { font-family: 'Gilda Display'; src: url('/fonts/gilda-display-latin-400-normal.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
-/* EB Garamond (SIL Open Font Licence) - for reading: statements, notes, narrative */
-@font-face { font-family: 'EB Garamond'; src: url('/fonts/eb-garamond-latin-400-normal.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
-@font-face { font-family: 'EB Garamond'; src: url('/fonts/eb-garamond-latin-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
-@font-face { font-family: 'EB Garamond'; src: url('/fonts/eb-garamond-latin-500-normal.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
-@font-face { font-family: 'EB Garamond'; src: url('/fonts/eb-garamond-latin-500-italic.woff2') format('woff2'); font-weight: 500; font-style: italic; font-display: swap; }
-/* Space Mono (SIL Open Font Licence) - the practical text: menu, details, links */
-@font-face { font-family: 'Space Mono'; src: url('/fonts/space-mono-latin-400-normal.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
-@font-face { font-family: 'Space Mono'; src: url('/fonts/space-mono-latin-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
-@font-face { font-family: 'Space Mono'; src: url('/fonts/space-mono-latin-700-normal.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+/* Desire Lines Editions - plain, type-led, no labels. The publications bring their own look.
+   Colours, fonts and sizes come from Sveltia: Settings > Design (data/design.yml), written into each page
+   by layouts/partials/design.html. The values below are only the fallbacks. */
 :root {
-  --paper: #5f6b55;   /* moss */
+  --paper: #5f6b55;
   --ink: #090c0b;
   --dim: rgba(9,12,11,.8);
   --line: rgba(9,12,11,.22);
-  --sans: 'Gilda Display', 'Didot', 'Bodoni 72', Georgia, serif;
-  --display: var(--sans);
-  --serif: 'EB Garamond', Garamond, 'Times New Roman', serif;
-  --mono: 'Space Mono', ui-monospace, Menlo, monospace;
+  --cover-bg: rgba(9,12,11,.08);
+  --display: 'Gilda Display', Didot, Georgia, serif;   /* name and titles */
+  --display-weight: 400;
+  --ui: 'Space Mono', ui-monospace, Menlo, monospace;  /* menu, details, links, reader controls */
+  --serif: 'EB Garamond', Garamond, Georgia, serif;    /* reading */
+  --title-case: uppercase;
+  --title-track: .04em;
+  --ts: 1;   /* title size */
+  --us: 1;   /* menu and details size */
+  --sans: var(--display); --mono: var(--ui);           /* older names, used by the reader */
   --gutter: max(22px, 4vw);
   --wide: 1240px;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { background: var(--paper); color: var(--ink); -webkit-text-size-adjust: 100%; }
-body { font-family: var(--mono); font-size: 12px; line-height: 1.5; -webkit-font-smoothing: antialiased; min-height: 100vh; display: flex; flex-direction: column; }
+body { font-family: var(--ui); font-size: calc(12px * var(--us)); line-height: 1.5; -webkit-font-smoothing: antialiased; min-height: 100vh; display: flex; flex-direction: column; }
 main { flex: 1; }
 a { color: inherit; text-underline-offset: 3px; text-decoration-thickness: 1px; }
 a:hover { text-decoration-thickness: 2px; }
 :focus-visible { outline: 1px solid var(--ink); outline-offset: 4px; }
 img { max-width: 100%; display: block; }
+.wordmark, .statement h1, .page-title, .book h2, .prose h2 {
+  font-family: var(--display); font-weight: var(--display-weight); text-transform: var(--title-case); letter-spacing: var(--title-track); }
 
 /* header */
 .site-head { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; flex-wrap: wrap;
   padding: max(20px, env(safe-area-inset-top)) var(--gutter) 20px; border-bottom: 1px solid var(--line); }
-.wordmark { font-family: var(--sans); font-weight: 400; font-size: 15px; letter-spacing: .06em; text-transform: uppercase; text-decoration: none; }
-.site-nav { display: flex; gap: 22px; font-size: 12px; }
+.wordmark { font-size: calc(15px * var(--ts)); text-decoration: none; }
+.site-nav { display: flex; gap: 22px; }
 .site-nav a { text-decoration: none; color: var(--dim); padding: 6px 0; }
 .site-nav a:hover, .site-nav a[aria-current] { color: var(--ink); }
 
 /* text pages */
 .wrap { max-width: var(--wide); margin: 0 auto; padding: 0 var(--gutter); }
 .statement { padding: 14vh 0 10vh; max-width: 34em; }
-.statement h1 { font-family: var(--sans); font-size: clamp(30px, 4.2vw, 54px); line-height: 1.04; letter-spacing: .02em; text-transform: uppercase; font-weight: 400; margin-bottom: .6em; }
+.statement h1 { font-size: calc(clamp(30px, 4.2vw, 54px) * var(--ts)); line-height: 1.04; margin-bottom: .6em; }
 .prose { max-width: 34em; font-family: var(--serif); font-size: 18px; line-height: 1.38; font-feature-settings: 'kern', 'liga', 'onum'; hanging-punctuation: first; }
 .prose em { font-style: italic; }
 .prose p, .prose ul, .prose ol { margin-bottom: 1em; }
 .prose ul, .prose ol { padding-left: 1.2em; }
-.prose h2 { font-family: var(--sans); font-size: 15px; letter-spacing: .05em; text-transform: uppercase; margin: 2em 0 .5em; }
-.page-title { font-family: var(--sans); font-size: clamp(24px, 2.6vw, 32px); line-height: 1.1; letter-spacing: .04em; text-transform: uppercase; font-weight: 400; padding: 10vh 0 5vh; }
-.placeholder { background: #fffbe0; outline: 1px dashed #c9b850; outline-offset: 2px; }
+.prose h2 { font-size: 15px; margin: 2em 0 .5em; }
+.page-title { font-size: calc(clamp(24px, 2.6vw, 32px) * var(--ts)); line-height: 1.1; padding: 10vh 0 5vh; }
+.placeholder { background: #fffbe0; color: #141414; outline: 1px dashed #c9b850; outline-offset: 2px; }
 
 /* catalogue: cover on the left, plain text on the right; the cover opens the reader */
 .intro { margin-bottom: 6vh; }
 .books { list-style: none; padding: 0 0 14vh; }
 .book { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: 5vw; padding: 7vh 0; border-top: 1px solid var(--line); align-items: start; }
-.cover { aspect-ratio: 3 / 4; display: grid; place-items: center; background: rgba(9,12,11,.08); overflow: hidden; }
-.cover { transition: aspect-ratio .3s ease; }
+.cover { aspect-ratio: 3 / 4; display: grid; place-items: center; background: var(--cover-bg); overflow: hidden; transition: aspect-ratio .3s ease; }
 .cover.drawn, .cover:has(img) { background: none; }
 .cover canvas, .cover img { display: block; width: 100%; height: auto; box-shadow: 0 1px 4px rgba(0,0,0,.25); transition: transform .4s ease, opacity .4s ease; }
 .cover:has(img) { aspect-ratio: auto; }
 .cover canvas { opacity: 0; }
 .cover canvas.ready { opacity: 1; }
 a.cover:hover canvas, a.cover:hover img { transform: scale(1.02); }
-.book h2 { font-family: var(--sans); font-size: clamp(20px, 1.9vw, 25px); line-height: 1.15; letter-spacing: .04em; text-transform: uppercase; font-weight: 400; margin-bottom: 6px; }
+.book h2 { font-size: calc(clamp(20px, 1.9vw, 25px) * var(--ts)); line-height: 1.15; margin-bottom: 6px; }
 .book h2 a { text-decoration: none; }
 .book h2 a:hover { text-decoration: underline; text-decoration-thickness: 2px; }
 .book .subtitle { font-family: var(--serif); font-size: 18px; line-height: 1.3; font-style: italic; margin-bottom: 12px; }
@@ -74,18 +72,17 @@ a.cover:hover canvas, a.cover:hover img { transform: scale(1.02); }
 .empty { padding: 6vh 0 14vh; color: var(--dim); }
 
 /* footer */
-.site-foot { display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap; color: var(--dim); font-size: 12px;
+.site-foot { display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap; color: var(--dim);
   padding: 22px var(--gutter) max(22px, env(safe-area-inset-bottom)); border-top: 1px solid var(--line); }
 .site-foot a { text-decoration: none; }
 .site-foot a:hover { color: var(--ink); }
 
 @media (max-width: 760px) {
-  body { font-size: 12px; }
   .statement { padding: 9vh 0 6vh; }
   .site-head { flex-wrap: nowrap; gap: 16px; }
-  .wordmark { font-size: 13px; letter-spacing: .04em; } .wordmark, .site-nav { white-space: nowrap; }
-  .site-nav { font-size: 11.5px; }
-  .site-nav { gap: 16px; }
+  .wordmark { font-size: calc(13px * var(--ts)); }
+  .wordmark, .site-nav { white-space: nowrap; }
+  .site-nav { font-size: .96em; gap: 16px; }
   .prose { font-size: 17px; }
   .book { grid-template-columns: 1fr; gap: 26px; padding: 6vh 0; }
   .book .cover { max-width: 420px; }
