@@ -1,19 +1,37 @@
-{{- /* Shelf of publications, newest first. Pass the pages. */ -}}
+{{- /* Publications, newest first. Cover and title open the reader straight away. Details as plain text. */ -}}
 {{- $pages := . -}}
 {{- if $pages }}
-<ul class="shelf">
-  {{- range $pages }}
-  <li>
-    <a href="{{ .RelPermalink }}">
-      <div class="cover" {{ with .Params.pdf_url }}data-pdf="{{ . }}"{{ end }}>
-        {{ with .Params.cover }}<img src="{{ . }}" alt="" loading="lazy">{{ end }}
-      </div>
-      <p class="name">{{ .Title }}</p>
-      <p class="meta">{{ with .Params.author }}{{ . }}{{ end }}{{ with .Params.year }} · {{ . }}{{ end }}</p>
-    </a>
+<ul class="books">
+  {{- range $pages }}{{ $p := . }}
+  <li class="book">
+    {{ if .Params.pdf_url }}<a class="cover" href="{{ .RelPermalink }}" data-pdf="{{ .Params.pdf_url }}" aria-label="Read {{ .Title }}">{{ else }}<div class="cover">{{ end }}
+      {{ with .Params.cover }}<img src="{{ . }}" alt="" loading="lazy">{{ end }}
+    {{ if .Params.pdf_url }}</a>{{ else }}</div>{{ end }}
+    <div class="text">
+      <h2>{{ if .Params.pdf_url }}<a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ else }}{{ .Title }}{{ end }}</h2>
+      {{ with .Params.subtitle }}<p class="subtitle">{{ . }}</p>{{ end }}
+      {{- $by := slice }}{{ with .Params.author }}{{ $by = $by | append . }}{{ end }}{{ with .Params.year }}{{ $by = $by | append . }}{{ end }}
+      {{ with $by }}<p>{{ delimit . ", " }}</p>{{ end }}
+      {{- $made := slice }}
+      {{- with .Params.format }}{{ $made = $made | append . }}{{ end }}
+      {{- with .Params.pages }}{{ $made = $made | append (printf "%v pages" .) }}{{ end }}
+      {{- with .Params.edition }}{{ $made = $made | append (cond (findRE `^\d` .) (printf "Edition of %s" .) (strings.FirstUpper .)) }}{{ end }}
+      {{ with $made }}<p>{{ delimit . ". " }}.</p>{{ end }}
+      {{- $credits := slice }}
+      {{- with .Params.design }}{{ $credits = $credits | append (printf "Designed by %s" .) }}{{ end }}
+      {{- with .Params.printer }}{{ $credits = $credits | append (printf "printed by %s" .) }}{{ end }}
+      {{ with $credits }}<p>{{ delimit . ", " }}.</p>{{ end }}
+      {{ with .Params.isbn }}<p>ISBN {{ . }}</p>{{ end }}
+      {{ with .Params.price }}<p>{{ . }}</p>{{ end }}
+      {{ with .Content }}<div class="prose">{{ . }}</div>{{ end }}
+      <p class="links">
+        {{- with .Params.pdf_url }}<a href="{{ $p.RelPermalink }}">Read</a> <a href="{{ . }}" target="_blank" rel="noopener">Download PDF</a>{{ end -}}
+        {{ with .Params.buy_url }} <a href="{{ . }}" target="_blank" rel="noopener">{{ $p.Params.buy_label | default "Buy a copy" }}</a>{{ end }}
+      </p>
+    </div>
   </li>
   {{- end }}
 </ul>
 {{- else }}
-<p class="empty label">Nothing published yet.</p>
+<p class="empty">Nothing published yet.</p>
 {{- end }}

@@ -5,7 +5,6 @@
     <h1>{{ .Params.heading | default site.Title }}</h1>
     <div class="prose">{{ .Content }}</div>
   </section>
-  <div class="section-head label"><span>Latest</span><a href="{{ "/catalogue/" | relURL }}">Full catalogue</a></div>
-  {{ partial "shelf.html" (first 6 (where site.RegularPages "Section" "catalogue").ByDate.Reverse) }}
+  {{ partial "shelf.html" (where site.RegularPages "Section" "catalogue").ByDate.Reverse }}
 </div>
 {{ end }}
