@@ -1,5 +1,5 @@
 {{- /* A publication = its reader (the silent reader from the TWT site kit), styled like the rest of the site. */ -}}
-{{- $pdf := partial "pdf-src.html" .Params.pdf_url -}}
+{{- $pdf := partial "pdf-src.html" . -}}
 <!DOCTYPE html>
 <html lang="en-gb">
 <head>
@@ -59,7 +59,8 @@
     .crumbs .here { color: var(--ink); overflow: hidden; text-overflow: ellipsis; }
     .crumbs .short { display: none; }
     .chrome.bottom { gap: 22px; }
-    /* the Spread / Single page switch shows on every screen */
+    /* the Spread / Single page switch shows on every screen, unless the PDF's pages are already spreads */
+    .view-toggle[hidden], .sep[hidden] { display: none !important; }
     @media (max-width: 600px) { .crumbs .long { display: none; } .crumbs .short { display: inline; } #pdf-fullscreen { display: none; } }
     .bar { display: flex; align-items: center; gap: 18px; pointer-events: auto; }
     .tbtn { width: 32px; height: 32px; display: grid !important; place-items: center; padding: 0 !important; }
@@ -92,7 +93,7 @@
   </style>
 </head>
 <body>
-  <main class="reader" id="pdf-reader" data-pdf-url="{{ $pdf }}" tabindex="0" aria-label="{{ .Title }} - use the arrow keys to turn pages">
+  <main class="reader" id="pdf-reader" data-pdf-url="{{ $pdf }}" data-layout="{{ .Params.page_layout | default "auto" | lower }}" tabindex="0" aria-label="{{ .Title }} - use the arrow keys to turn pages">
     <div class="stage" id="pdf-stage"><div class="pages waiting" id="pdf-pages"></div></div>
 
     <div class="chrome top">
@@ -103,7 +104,7 @@
       </nav>
       <div class="right">
         <button type="button" id="pdf-fullscreen" hidden>Full screen</button>
-        <a id="pdf-original" href="{{ $pdf }}" target="_blank" rel="noopener">Download PDF</a>
+        {{ if ne .Params.download false }}<a id="pdf-original" href="{{ $pdf }}" download>Download PDF</a>{{ end }}
       </div>
     </div>
     <div class="chrome bottom"><div class="bar">
