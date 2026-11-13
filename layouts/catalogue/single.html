@@ -45,7 +45,7 @@
     /* the only furniture: three small lines of type, gone when you stop moving */
     .chrome { position: absolute; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center;
               padding: 18px max(22px, env(safe-area-inset-right)) 18px max(22px, env(safe-area-inset-left));
-              font-family: var(--sans); font-size: 14px; color: #6b6862;
+              font-family: var(--mono); font-size: 12px; color: #6b6862;
               transition: opacity .6s ease; pointer-events: none; z-index: 2; }
     .chrome.top { top: 0; padding-top: max(18px, env(safe-area-inset-top)); }
     .chrome.bottom { bottom: 0; justify-content: center; padding-bottom: max(18px, env(safe-area-inset-bottom)); font-variant-numeric: tabular-nums; }
@@ -72,7 +72,7 @@
       .chrome { color: #141414; }
       .chrome.top { background: linear-gradient(rgba(242,239,232,.92), rgba(242,239,232,0)); padding-bottom: 28px; }
       .chrome.bottom { padding-left: 10px; padding-right: 10px; }
-      .bar { gap: 0; padding: 2px 6px; border-radius: 999px; white-space: nowrap; max-width: 100%; background: rgba(242,239,232,.88); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border: 1px solid #d9d4ca; font-size: 13px; }
+      .bar { gap: 0; padding: 2px 6px; border-radius: 999px; white-space: nowrap; max-width: 100%; background: rgba(242,239,232,.88); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border: 1px solid #d9d4ca; font-size: 12px; }
       .tbtn { width: 44px; height: 44px; }
       .tbtn svg { width: 20px; height: 20px; }
       #pdf-count { padding: 0 2px; min-width: 62px; text-align: center; }
@@ -84,7 +84,7 @@
     .reader.idle .chrome a, .reader.idle .chrome button { pointer-events: none; }
     :focus-visible { outline: 1px solid #141414; outline-offset: 4px; }
 
-    .fallback { position: absolute; inset: 0; display: none; place-items: center; text-align: center; font-family: var(--sans); font-size: 15px; color: #6b6862; }
+    .fallback { position: absolute; inset: 0; display: none; place-items: center; text-align: center; font-family: var(--mono); font-size: 12px; color: #6b6862; }
     .fallback a { color: #141414; }
     .reader.failed .fallback { display: grid; }
     .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
