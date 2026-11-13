@@ -4,12 +4,18 @@
 @font-face { font-family: 'AGProExt'; src: url('/fonts/akzidenzgroteskpro_extitalic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
 @font-face { font-family: 'AGProExt'; src: url('/fonts/akzidenzgroteskpro_boldex.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 @font-face { font-family: 'AGProExt'; src: url('/fonts/akzidenzgroteskpro_boldexit.woff2') format('woff2'); font-weight: 700; font-style: italic; font-display: swap; }
+/* EB Garamond (SIL Open Font Licence) - for reading: statements, notes, narrative */
+@font-face { font-family: 'EB Garamond'; src: url('/fonts/eb-garamond-latin-400-normal.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'EB Garamond'; src: url('/fonts/eb-garamond-latin-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: 'EB Garamond'; src: url('/fonts/eb-garamond-latin-500-normal.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: 'EB Garamond'; src: url('/fonts/eb-garamond-latin-500-italic.woff2') format('woff2'); font-weight: 500; font-style: italic; font-display: swap; }
 :root {
   --paper: #f2efe8;
   --ink: #141414;
   --dim: #6b6862;
   --line: #d9d4ca;
   --sans: 'AGProExt', 'Helvetica Neue', Arial, sans-serif;
+  --serif: 'EB Garamond', Garamond, 'Times New Roman', serif;
   --mono: ui-monospace, "SF Mono", Menlo, "Courier New", monospace;
   --gutter: max(22px, 4vw);
   --wide: 1240px;
@@ -35,7 +41,8 @@ img { max-width: 100%; display: block; }
 .wrap { max-width: var(--wide); margin: 0 auto; padding: 0 var(--gutter); }
 .statement { padding: 14vh 0 10vh; max-width: 34em; }
 .statement h1 { font-size: clamp(30px, 5.2vw, 64px); line-height: 1.05; letter-spacing: -.02em; font-weight: 400; margin-bottom: .6em; }
-.prose { max-width: 38em; }
+.prose { max-width: 34em; font-family: var(--serif); font-size: 20px; line-height: 1.5; font-feature-settings: 'kern', 'liga', 'onum'; hanging-punctuation: first; }
+.prose em { font-style: italic; }
 .prose p, .prose ul, .prose ol { margin-bottom: 1em; }
 .prose ul, .prose ol { padding-left: 1.2em; }
 .prose h2 { font-size: 17px; margin: 2em 0 .5em; }
@@ -54,7 +61,7 @@ a.cover:hover canvas, a.cover:hover img { transform: scale(1.02); }
 .book h2 { font-size: clamp(22px, 2.6vw, 30px); line-height: 1.15; letter-spacing: -.01em; font-weight: 400; margin-bottom: 6px; }
 .book h2 a { text-decoration: none; }
 .book h2 a:hover { text-decoration: underline; text-decoration-thickness: 2px; }
-.book .subtitle { font-size: 16px; font-style: italic; margin-bottom: 14px; }
+.book .subtitle { font-family: var(--serif); font-size: 21px; font-style: italic; margin-bottom: 14px; }
 .book .text > p { color: var(--dim); }
 .book .text > p.subtitle, .book .text > p.links { color: var(--ink); }
 .book .prose { margin-top: 18px; }
@@ -73,6 +80,7 @@ a.cover:hover canvas, a.cover:hover img { transform: scale(1.02); }
   .site-head { flex-wrap: nowrap; gap: 16px; }
   .wordmark, .site-nav { white-space: nowrap; font-size: 13px; }
   .site-nav { gap: 16px; }
+  .prose { font-size: 18px; }
   .book { grid-template-columns: 1fr; gap: 26px; padding: 6vh 0; }
   .book .cover { max-width: 420px; }
 }
