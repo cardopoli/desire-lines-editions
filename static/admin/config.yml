@@ -53,6 +53,8 @@ collections:
       - { name: sold_out, label: Sold out, widget: boolean, default: false, required: false, hint: "Shows Sold out instead of the price." }
       - { name: buy_url, label: Link to buy (optional), widget: string, required: false }
       - { name: buy_label, label: Buy button text, widget: string, required: false, hint: "Blank = Buy a copy" }
+      - { name: project_url, label: Project website (optional), widget: string, required: false, hint: "Shown as a link in the reader's Info panel, e.g. https://thiswastomorrow.co.uk" }
+      - { name: project_label, label: Project link text, widget: string, required: false, hint: "Blank = Project website" }
       - name: pdf_url
         label: PDF file
         widget: file

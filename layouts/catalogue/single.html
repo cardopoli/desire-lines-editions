@@ -135,9 +135,10 @@
       {{ with .Params.subtitle }}<p class="info-sub">{{ . }}</p>{{ end }}
       <div class="info-details">{{ partial "details.html" . }}</div>
       {{ with .Content }}<div class="info-notes">{{ . }}</div>{{ end }}
-      {{ if or .Params.buy_url (ne .Params.download false) }}
+      {{ if or .Params.buy_url .Params.project_url (ne .Params.download false) }}
       <p class="info-links">
         {{- with .Params.buy_url }}<a href="{{ . }}" target="_blank" rel="noopener">{{ $.Params.buy_label | default "Buy a copy" }}</a>{{ end -}}
+        {{- with .Params.project_url }}<a href="{{ . }}" target="_blank" rel="noopener">{{ $.Params.project_label | default "Project website" }}</a>{{ end -}}
         {{- if ne .Params.download false }}<a href="{{ $pdf }}" download>Download PDF</a>{{ end -}}
       </p>
       {{ end }}
