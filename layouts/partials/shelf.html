@@ -10,7 +10,7 @@
     {{ if $pdf }}</a>{{ else }}</div>{{ end }}
     <div class="text">
       <h2>{{ if $pdf }}<a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ else }}{{ .Title }}{{ end }}</h2>
-      {{- $by := slice }}{{ with .Params.author }}{{ $by = $by | append . }}{{ end }}{{ with .Params.year }}{{ $by = $by | append . }}{{ end }}
+      {{- $by := slice }}{{ with .Params.author }}{{ $by = $by | append . }}{{ end }}{{ with (.Params.year | default (.Date.Format "2006")) }}{{ if ne . "0001" }}{{ $by = $by | append . }}{{ end }}{{ end }}
       {{ with $by }}<p>{{ delimit . ", " }}</p>{{ end }}
       {{ with .Params.excerpt }}<p class="excerpt">{{ . }}</p>{{ end }}
       {{- $meta := slice }}{{ with .Params.type }}{{ $meta = $meta | append . }}{{ end }}

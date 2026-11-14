@@ -1,6 +1,6 @@
 {{- /* A publication's details as plain sentences: shown in the reader's Info panel. Pass the page. */ -}}
 {{- $p := . -}}
-{{- $by := slice }}{{ with .Params.author }}{{ $by = $by | append . }}{{ end }}{{ with .Params.year }}{{ $by = $by | append . }}{{ end }}
+{{- $by := slice }}{{ with .Params.author }}{{ $by = $by | append . }}{{ end }}{{ with (.Params.year | default (.Date.Format "2006")) }}{{ if ne . "0001" }}{{ $by = $by | append . }}{{ end }}{{ end }}
 {{ with $by }}<p>{{ delimit . ", " }}</p>{{ end }}
 {{- $made := slice }}
 {{- with .Params.format }}{{ $made = $made | append . }}{{ end }}

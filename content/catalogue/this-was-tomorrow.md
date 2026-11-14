@@ -3,7 +3,7 @@ title: This Was Tomorrow
 subtitle: Is This the Future We Were Dreaming Of?
 author: Enrico Policardo
 number: 1
-date: 2026-11-01
+date: 2024-01-01
 year: '2024'
 format: Saddle stitch + rubber band + folds
 pages: 64 (including cover) + loose sheets
