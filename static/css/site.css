@@ -79,6 +79,20 @@ a.cover:hover canvas, a.cover:hover img { transform: scale(1.02); }
 .sort select:hover { border-color: var(--ink); }
 .more { padding: 0 0 14vh; margin-top: -8vh; }
 
+/* a book's own page */
+.entry { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 6vw; padding: 8vh 0 12vh; align-items: start; }
+.entry .cover { position: sticky; top: 24px; }
+.entry h1 { font-family: var(--display); font-weight: var(--display-weight); text-transform: var(--title-case); letter-spacing: var(--title-track); font-size: calc(clamp(26px, 3vw, 40px) * var(--ts)); line-height: 1.1; }
+.entry .subtitle { font-family: var(--serif); font-style: italic; font-size: 20px; line-height: 1.3; margin-top: 8px; }
+.entry .excerpt { font-family: var(--serif); font-size: 19px; line-height: 1.35; margin-top: 18px; }
+.entry .prose { margin-top: 26px; }
+.entry .details { margin-top: 26px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--dim); }
+.entry .links { margin-top: 26px; display: flex; gap: 22px; flex-wrap: wrap; }
+.entry .links a:first-child { font-weight: 700; }
+.also { border-top: 1px solid var(--line); }
+.also-head { font-family: var(--ui); font-weight: 400; text-transform: none; letter-spacing: 0; font-size: inherit; color: var(--dim); padding: 14px 0 0; }
+.also .books { border-top: 0; padding-top: 4vh; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 48px 36px; }
+
 /* footer */
 .site-foot { display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap; color: var(--dim);
   padding: 22px var(--gutter) max(22px, env(safe-area-inset-bottom)); border-top: 1px solid var(--line); }
@@ -93,5 +107,8 @@ a.cover:hover canvas, a.cover:hover img { transform: scale(1.02); }
   .site-nav { font-size: .96em; gap: 16px; }
   .prose { font-size: 17px; }
   .books { grid-template-columns: 1fr 1fr; gap: 40px 18px; padding-top: 5vh; }
+  .entry { grid-template-columns: 1fr; gap: 30px; padding: 5vh 0 9vh; }
+  .entry .cover { position: static; max-width: 440px; }
+  .also .books { grid-template-columns: 1fr 1fr; gap: 40px 18px; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }

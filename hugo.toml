@@ -36,3 +36,18 @@ disableKinds = ["taxonomy", "term"]
 
 [outputs]
   home = ["html", "rss", "pdfmap"]
+
+# each catalogue entry has its page (/catalogue/<entry>/) and its reader (/catalogue/<entry>/read)
+[outputFormats.reader]
+  mediaType = "text/html"
+  baseName = "read"
+  isHTML = true
+  permalinkable = true
+  noUgly = true
+  notAlternative = true
+
+[[cascade]]
+  outputs = ["html", "reader"]
+  [cascade.target]
+    kind = "page"
+    path = "/catalogue/**"
