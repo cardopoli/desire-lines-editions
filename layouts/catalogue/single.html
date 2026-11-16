@@ -15,7 +15,7 @@
       {{ with .Content }}<div class="prose">{{ . }}</div>{{ end }}
       <div class="details">
         {{ partial "details.html" . }}
-        {{ with .Params.kind }}<p>{{ . }}</p>{{ end }}
+        {{ with .Params.genre }}<p>{{ . }}</p>{{ end }}
         {{ if .Params.sold_out }}<p>Sold out</p>{{ end }}
       </div>
       {{ if or $read .Params.buy_url .Params.project_url }}
@@ -32,7 +32,7 @@
   {{- /* Also from Desire Lines: same Type first, then the newest; up to three */ -}}
   {{- $others := where (where site.RegularPages "Section" "catalogue") "File.Path" "ne" .File.Path -}}
   {{- $same := slice }}{{ $rest := slice -}}
-  {{- range $others.ByDate.Reverse }}{{ if and $.Params.kind (eq (lower (.Params.kind | default "")) (lower $.Params.kind)) }}{{ $same = $same | append . }}{{ else }}{{ $rest = $rest | append . }}{{ end }}{{ end -}}
+  {{- range $others.ByDate.Reverse }}{{ if and $.Params.genre (eq (lower (.Params.genre | default "")) (lower $.Params.genre)) }}{{ $same = $same | append . }}{{ else }}{{ $rest = $rest | append . }}{{ end }}{{ end -}}
   {{- $pick := first 3 ($same | append $rest) -}}
   {{ with $pick }}
   <section class="also">

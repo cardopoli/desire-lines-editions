@@ -6,7 +6,7 @@ number: null
 date: 22 Oct 2025
 year: ''
 excerpt: ''
-kind: ''
+genre: ''
 format: ''
 pages: ''
 edition: ''

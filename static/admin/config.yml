@@ -42,7 +42,7 @@ collections:
       - { name: date, label: Publication date, widget: datetime, time_format: false, date_format: "D MMM YYYY", hint: "Sets the order: newest first." }
       - { name: year, label: Year shown, widget: string, required: false }
       - { name: excerpt, label: Short description, widget: string, required: false, hint: "One line under the cover on the home page and catalogue. Leave empty for none." }
-      - { name: kind, label: Type, widget: string, required: false, hint: "e.g. Artist's book, Photobook, Essay (saved as kind: Hugo keeps the word type for itself)" }
+      - { name: genre, label: Type, widget: string, required: false, hint: "e.g. Artist's book, Photobook, Essay" }
       - { name: format, label: Format, widget: string, required: false, hint: "e.g. Folded sheet, A3 folding to A4" }
       - { name: pages, label: Pages, widget: string, required: false }
       - { name: edition, label: Edition, widget: string, required: false, hint: "e.g. 50 copies" }
