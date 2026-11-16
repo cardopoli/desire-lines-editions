@@ -12,7 +12,7 @@
       {{- $by := slice }}{{ with .Params.author }}{{ $by = $by | append . }}{{ end }}{{ with (.Params.year | default (.Date.Format "2006")) }}{{ if ne . "0001" }}{{ $by = $by | append . }}{{ end }}{{ end }}
       {{ with $by }}<p>{{ delimit . ", " }}</p>{{ end }}
       {{ with .Params.excerpt }}<p class="excerpt">{{ . }}</p>{{ end }}
-      {{- $meta := slice }}{{ with .Params.type }}{{ $meta = $meta | append . }}{{ end }}
+      {{- $meta := slice }}{{ with .Params.kind }}{{ $meta = $meta | append . }}{{ end }}
       {{- if .Params.sold_out }}{{ $meta = $meta | append "Sold out" }}{{ else }}{{ with .Params.price }}{{ $meta = $meta | append . }}{{ end }}{{ end }}
       {{ with $meta }}<p class="meta">{{ delimit . " · " }}</p>{{ end }}
     </div>
