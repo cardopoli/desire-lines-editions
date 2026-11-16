@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="en-gb">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Studio</title>
+<style>
+:root {
+  --paper:#f7f5f0; --card:#fff; --ink:#111; --muted:#8c8880; --rule:#d6d2ca;
+  --accent:#077533; --warn:#a02012; --shade:#f0ede6;
+  --mono:'Courier New',Courier,monospace;
+  --s1:4px; --s2:8px; --s3:12px; --s4:18px; --s5:26px; --s6:40px;
+}
+[data-theme="dark"] {
+  --paper:#12130f; --card:#1a1c16; --ink:#eae7df; --muted:#7d7a72; --rule:#33362c;
+  --accent:#27f5b0; --warn:#e4685a; --shade:#22241c;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { -webkit-text-size-adjust:100%; }
+body {
+  background:var(--paper); color:var(--ink); font-family:var(--mono);
+  font-size:13px; line-height:1.5; min-height:100vh;
+}
+
+/* ---------- CHROME ---------- */
+.bar {
+  display:flex; align-items:center; gap:var(--s4);
+  padding:var(--s3) var(--s4); border-bottom:2px solid var(--ink);
+  position:sticky; top:0; background:var(--paper); z-index:50;
+}
+.brand { font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase; white-space:nowrap; }
+.brand em { font-style:normal; color:var(--muted); }
+.bar-sp { flex:1; }
+.icon-btn {
+  font-family:var(--mono); font-size:11px; background:none; border:1px solid var(--rule);
+  color:var(--muted); padding:5px 10px; cursor:pointer; letter-spacing:1px; text-transform:uppercase;
+}
+.icon-btn:hover { border-color:var(--ink); color:var(--ink); }
+
+.shell { display:grid; grid-template-columns:186px 1fr; align-items:start; }
+
+/* ---------- RAIL ---------- */
+.rail { border-right:1px solid var(--rule); padding:var(--s4) 0 var(--s6); position:sticky; top:47px; }
+.rail-group { font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); padding:var(--s4) var(--s4) var(--s2); }
+.rail-group:first-child { padding-top:0; }
+.rail-btn {
+  display:block; width:100%; text-align:left; font-family:var(--mono); font-size:12px;
+  background:none; border:none; border-left:2px solid transparent;
+  color:var(--muted); padding:7px var(--s4); cursor:pointer; letter-spacing:0.5px;
+}
+.rail-btn:hover { color:var(--ink); background:var(--shade); }
+.rail-btn[aria-current="true"] { color:var(--ink); border-left-color:var(--accent); font-weight:700; background:var(--shade); }
+
+/* ---------- PANEL ---------- */
+.stage { padding:var(--s5) var(--s5) var(--s6); max-width:820px; }
+.panel { display:none; }
+.panel.on { display:block; }
+.h { font-size:15px; font-weight:700; letter-spacing:0.5px; margin-bottom:var(--s1); }
+.lede { font-size:11px; color:var(--muted); line-height:1.7; margin-bottom:var(--s5); max-width:56ch; }
+
+label.fl { display:block; font-size:9px; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+input[type=text], textarea, select {
+  width:100%; font-family:var(--mono); font-size:12px; background:var(--card);
+  border:1px solid var(--rule); padding:9px 11px; color:var(--ink);
+  outline:none; resize:vertical; -webkit-appearance:none; appearance:none; border-radius:0;
+}
+input[type=text]:focus, textarea:focus, select:focus { border-color:var(--ink); box-shadow:inset 0 -2px 0 var(--accent); }
+select { cursor:pointer; padding-right:28px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238c8880' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 10px center; }
+.f { margin-bottom:var(--s4); }
+.g2 { display:grid; grid-template-columns:1fr 1fr; gap:var(--s3); margin-bottom:var(--s4); }
+.g3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:var(--s3); margin-bottom:var(--s4); }
+.hint { font-size:10px; color:var(--muted); margin-top:5px; line-height:1.6; }
+.divider { border:none; border-top:1px solid var(--rule); margin:var(--s5) 0 var(--s4); }
+.sub { display:block; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:var(--s3); }
+.opts { display:flex; gap:var(--s4); flex-wrap:wrap; margin-bottom:var(--s4); }
+.opts label { display:flex; align-items:center; gap:6px; font-size:11px; color:var(--ink); cursor:pointer; }
+.warn { font-size:11px; color:var(--warn); margin-top:6px; display:none; }
+.warn.on { display:block; }
+
+/* recent chips */
+.recent { display:flex; gap:5px; flex-wrap:wrap; margin-top:7px; }
+.chip {
+  font-family:var(--mono); font-size:9px; background:var(--shade); border:1px solid var(--rule);
+  color:var(--muted); padding:4px 7px; cursor:pointer; max-width:190px; overflow:hidden;
+  text-overflow:ellipsis; white-space:nowrap;
+}
+.chip:hover { border-color:var(--ink); color:var(--ink); }
+
+/* ---------- OUTPUT ---------- */
+.out-wrap { margin-top:var(--s5); border-top:2px solid var(--ink); padding-top:var(--s3); }
+.out-head { display:flex; align-items:center; gap:var(--s3); margin-bottom:var(--s2); }
+.out-title { font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); }
+.live { font-size:8px; letter-spacing:1.5px; text-transform:uppercase; color:var(--accent); display:flex; align-items:center; gap:5px; }
+.live::before { content:""; width:5px; height:5px; border-radius:50%; background:var(--accent); }
+.out-sp { flex:1; }
+textarea.code { font-size:11px; line-height:1.6; height:120px; background:var(--card); }
+textarea.code.tall { height:200px; }
+textarea.code.short { height:52px; }
+.cp {
+  font-family:var(--mono); font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase;
+  background:var(--ink); color:var(--paper); border:1px solid var(--ink); padding:6px 12px; cursor:pointer;
+}
+.cp:hover { background:var(--accent); border-color:var(--accent); color:#fff; }
+.cp.ghost { background:none; color:var(--ink); }
+.cp.ghost:hover { background:var(--shade); color:var(--ink); }
+.prev { margin-top:var(--s4); border:1px solid var(--rule); background:var(--card); padding:var(--s4); }
+.prev-l { display:block; font-size:9px; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); margin-bottom:var(--s3); }
+.prev img, .prev video { max-width:100%; display:block; }
+
+/* toast */
+.toast {
+  position:fixed; bottom:var(--s4); left:50%; transform:translateX(-50%) translateY(140%);
+  background:var(--ink); color:var(--paper); font-size:11px; letter-spacing:1.5px;
+  text-transform:uppercase; padding:11px 20px; z-index:200; transition:transform .22s;
+}
+.toast:not(.on) { visibility:hidden; transition:transform .22s, visibility 0s .22s; }
+.toast.on { transform:translateX(-50%) translateY(0); }
+[hidden] { display:none !important; }
+
+/* swatches */
+.palette { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:var(--s3); }
+.sw { width:26px; height:26px; cursor:pointer; border:2px solid transparent; }
+.sw:hover, .sw.sel { border-color:var(--ink); }
+.pair { display:grid; grid-template-columns:1fr 1fr; gap:1px; margin-top:var(--s3); }
+.pair div { padding:18px; font-size:12px; }
+
+/* layout cards */
+.cards { display:grid; grid-template-columns:repeat(3,1fr); gap:var(--s2); margin-bottom:var(--s4); }
+.card { border:1px solid var(--rule); background:var(--card); padding:12px 8px 8px; cursor:pointer; text-align:center; }
+.card:hover { border-color:var(--muted); }
+.card[aria-pressed="true"] { border-color:var(--ink); background:var(--shade); }
+.card .ic { display:flex; gap:2px; justify-content:center; height:28px; margin-bottom:7px; }
+.card .ic div { background:var(--rule); flex:1; }
+.card[aria-pressed="true"] .ic div { background:var(--ink); }
+.card .lb { font-size:8px; letter-spacing:1px; text-transform:uppercase; color:var(--muted); }
+.card[aria-pressed="true"] .lb { color:var(--ink); font-weight:700; }
+.slot { border:1px solid var(--rule); padding:var(--s3); margin-bottom:var(--s2); background:var(--card); }
+.slot[hidden] { display:none; }
+.slot-t { display:block; font-size:9px; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); margin-bottom:var(--s2); }
+
+/* snippets + ref */
+.snips { display:grid; grid-template-columns:1fr 1fr; gap:var(--s2); margin-bottom:var(--s4); }
+.snip { border:1px solid var(--rule); background:var(--card); padding:var(--s3); cursor:pointer; text-align:left; font-family:var(--mono); }
+.snip:hover { border-color:var(--ink); background:var(--shade); }
+.snip b { display:block; font-size:11px; letter-spacing:0.5px; margin-bottom:4px; }
+.snip span { font-size:10px; color:var(--muted); line-height:1.5; }
+.snip[aria-pressed="true"] { border-color:var(--ink); background:var(--shade); }
+table.ref { width:100%; border-collapse:collapse; font-size:11px; margin-bottom:var(--s5); }
+table.ref td { padding:7px 9px; border-bottom:1px solid var(--rule); vertical-align:top; }
+table.ref td:first-child { width:44%; white-space:nowrap; color:var(--accent); }
+table.ref code { background:var(--shade); padding:2px 5px; font-size:10px; }
+
+/* type preview */
+.typeface { border:1px solid var(--rule); background:var(--card); padding:var(--s5); margin-top:var(--s4); }
+
+/* lightbox */
+.lb { display:none; position:fixed; inset:0; background:rgba(0,0,0,.93); z-index:300; cursor:zoom-out; align-items:center; justify-content:center; }
+.lb.on { display:flex; }
+.lb img { max-width:92vw; max-height:88vh; object-fit:contain; }
+.lb-cap { color:#bbb; font-size:11px; text-align:center; margin-top:10px; font-style:italic; }
+
+/* isbn */
+.isbn-prev { background:#fff; padding:var(--s4); max-width:340px; }
+.isbn-prev svg { display:block; width:100%; height:auto; }
+.prev-only > .out-head, .prev-only > textarea { display:none !important; }
+.prev-only .prev { margin-top:0; }
+.isbn-btns { display:flex; gap:var(--s2); flex-wrap:wrap; margin-top:var(--s4); }
+
+/* mobile */
+@media (max-width:760px) {
+  .shell { grid-template-columns:1fr; }
+  .rail { position:static; border-right:none; border-bottom:1px solid var(--rule); display:flex; overflow-x:auto; padding:0; -webkit-overflow-scrolling:touch; }
+  .rail-group { display:none; }
+  .rail-btn { width:auto; white-space:nowrap; border-left:none; border-bottom:2px solid transparent; padding:11px 13px; }
+  .rail-btn[aria-current="true"] { border-left:none; border-bottom-color:var(--accent); }
+  .stage { padding:var(--s4) var(--s3) var(--s6); }
+  .g2, .g3 { grid-template-columns:1fr; }
+  .cards { grid-template-columns:1fr 1fr; }
+  .snips { grid-template-columns:1fr; }
+}
+@media (prefers-reduced-motion:reduce) { .toast { transition:none; } }
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <div class="brand"><span id="brandName">TWT</span> <em>/ Studio</em></div>
+  <div class="bar-sp"></div>
+  <button class="icon-btn" id="themeBtn" type="button">Dark</button>
+</div>
+
+<div class="shell">
+  <nav class="rail" id="rail" aria-label="Tools"></nav>
+
+  <main class="stage">
+
+    <!-- IMAGE -->
+    <section class="panel on" id="p-image">
+      <h2 class="h">Image</h2>
+      <p class="lede">Paste a Dropbox file link. The code updates as you type.</p>
+      <div class="f">
+        <label class="fl" for="im-url">Dropbox image URL</label>
+        <input type="text" id="im-url" data-recent="image" placeholder="https://www.dropbox.com/scl/fi/…">
+        <div class="warn" id="im-warn">That doesn't look like a Dropbox link.</div>
+        <div class="recent" id="im-recent"></div>
+      </div>
+      <div class="g3">
+        <div><label class="fl" for="im-w">Width</label><input type="text" id="im-w" value="100%"></div>
+        <div><label class="fl" for="im-mw">Max width</label><input type="text" id="im-mw" placeholder="480px"></div>
+        <div><label class="fl" for="im-al">Alignment</label>
+          <select id="im-al"><option value="">None</option><option value="center">Centre</option><option value="float-left">Float left</option><option value="float-right">Float right</option></select>
+        </div>
+      </div>
+      <div class="g2">
+        <div><label class="fl" for="im-alt">Alt text</label><input type="text" id="im-alt" placeholder="Describe the image"></div>
+        <div><label class="fl" for="im-cap">Caption</label><input type="text" id="im-cap" placeholder="Optional"></div>
+      </div>
+      <span class="sub">Format</span>
+      <div class="opts">
+        <label><input type="radio" name="im-fmt" value="html" checked> HTML</label>
+        <label><input type="radio" name="im-fmt" value="figure"> Figure + caption</label>
+        <label><input type="radio" name="im-fmt" value="md"> Markdown</label>
+      </div>
+    </section>
+
+    <!-- LAYOUT -->
+    <section class="panel" id="p-layout">
+      <h2 class="h">Layout</h2>
+      <p class="lede">Multi-image blocks. Images open in a lightbox on the site. Gap is 4px.</p>
+      <div class="cards" id="lay-cards"></div>
+      <div class="slot" id="lay-slot-1"><span class="slot-t">Image 1</span>
+        <div class="f"><label class="fl">Dropbox URL</label><input type="text" id="lay-url-1" data-recent="image" placeholder="https://www.dropbox.com/scl/fi/…"></div>
+        <div class="g2" style="margin-bottom:0"><div><label class="fl">Alt</label><input type="text" id="lay-alt-1"></div><div><label class="fl">Caption</label><input type="text" id="lay-cap-1"></div></div>
+      </div>
+      <div class="slot" id="lay-slot-2" hidden><span class="slot-t">Image 2</span>
+        <div class="f"><label class="fl">Dropbox URL</label><input type="text" id="lay-url-2" data-recent="image" placeholder="https://www.dropbox.com/scl/fi/…"></div>
+        <div class="g2" style="margin-bottom:0"><div><label class="fl">Alt</label><input type="text" id="lay-alt-2"></div><div><label class="fl">Caption</label><input type="text" id="lay-cap-2"></div></div>
+      </div>
+      <div class="slot" id="lay-slot-3" hidden><span class="slot-t">Image 3</span>
+        <div class="f"><label class="fl">Dropbox URL</label><input type="text" id="lay-url-3" data-recent="image" placeholder="https://www.dropbox.com/scl/fi/…"></div>
+        <div class="g2" style="margin-bottom:0"><div><label class="fl">Alt</label><input type="text" id="lay-alt-3"></div><div><label class="fl">Caption</label><input type="text" id="lay-cap-3"></div></div>
+      </div>
+      <div class="f"><label class="fl" for="lay-gcap">Group caption</label><input type="text" id="lay-gcap" placeholder="Optional - sits below the block"></div>
+      <div class="warn" id="lay-warn">Add a Dropbox link to each visible slot.</div>
+    </section>
+
+    <!-- AUDIO -->
+    <section class="panel" id="p-audio">
+      <h2 class="h">Audio</h2>
+      <p class="lede">One file. For a whole folder use Playlist.</p>
+      <div class="f">
+        <label class="fl" for="au-url">Dropbox audio file URL</label>
+        <input type="text" id="au-url" data-recent="audio" placeholder="https://www.dropbox.com/scl/fi/…mp3">
+        <div class="warn" id="au-warn">That doesn't look like a Dropbox link.</div>
+        <div class="recent" id="au-recent"></div>
+      </div>
+      <div class="g2">
+        <div><label class="fl" for="au-title">Track title</label><input type="text" id="au-title" placeholder="Shown above the player"></div>
+        <div><label class="fl" for="au-w">Width</label><input type="text" id="au-w" value="100%"></div>
+      </div>
+      <hr class="divider"><span class="sub">Colour</span>
+      <div class="opts">
+        <label><input type="radio" name="au-sch" value="dark" checked> Dark</label>
+        <label><input type="radio" name="au-sch" value="light"> Light</label>
+        <label><input type="radio" name="au-sch" value="custom"> Custom</label>
+      </div>
+      <div class="g2" id="au-cols" hidden>
+        <div><label class="fl" for="au-bg">Background</label><input type="text" id="au-bg" value="#111111"></div>
+        <div><label class="fl" for="au-fg">Foreground</label><input type="text" id="au-fg" value="#f7f5f0"></div>
+      </div>
+      <span class="sub">Size</span>
+      <div class="opts">
+        <label><input type="radio" name="au-size" value="compact"> Compact</label>
+        <label><input type="radio" name="au-size" value="normal" checked> Normal</label>
+        <label><input type="radio" name="au-size" value="large"> Large</label>
+      </div>
+      <div class="opts">
+        <label><input type="checkbox" id="au-timer" checked> Show timer</label>
+        <label><input type="checkbox" id="au-showtitle" checked> Show title</label>
+      </div>
+      <div class="f"><label class="fl" for="au-border">Border</label>
+        <select id="au-border"><option value="none">None</option><option value="rule">Top rule</option><option value="box">Full box</option></select>
+      </div>
+    </section>
+
+    <!-- PLAYLIST -->
+    <section class="panel" id="p-playlist">
+      <h2 class="h">Playlist</h2>
+      <p class="lede">A shared Dropbox folder of audio. Outputs a Hugo shortcode - paste it into a body field.</p>
+      <div class="f">
+        <label class="fl" for="pl-url">Dropbox folder URL</label>
+        <input type="text" id="pl-url" data-recent="folder" placeholder="https://www.dropbox.com/scl/fo/…">
+        <div class="warn" id="pl-warn">Needs a folder link (/scl/fo/), not a file.</div>
+        <div class="recent" id="pl-recent"></div>
+      </div>
+      <hr class="divider"><span class="sub">Colour</span>
+      <div class="opts">
+        <label><input type="radio" name="pl-sch" value="dark" checked> Dark</label>
+        <label><input type="radio" name="pl-sch" value="light"> Light</label>
+        <label><input type="radio" name="pl-sch" value="transparent"> Transparent</label>
+        <label><input type="radio" name="pl-sch" value="custom"> Custom</label>
+      </div>
+      <div class="g2" id="pl-cols" hidden>
+        <div><label class="fl" for="pl-bg">Background</label><input type="text" id="pl-bg" value="#111111"></div>
+        <div><label class="fl" for="pl-fg">Foreground</label><input type="text" id="pl-fg" value="#f7f5f0"></div>
+      </div>
+      <span class="sub">Size</span>
+      <div class="opts">
+        <label><input type="radio" name="pl-size" value="compact"> Compact</label>
+        <label><input type="radio" name="pl-size" value="normal" checked> Normal</label>
+        <label><input type="radio" name="pl-size" value="large"> Large</label>
+      </div>
+      <div class="opts"><label><input type="checkbox" id="pl-timer" checked> Show timer</label></div>
+      <p class="hint">Transparent suits the exhibit pages, where the player sits on the image.</p>
+    </section>
+
+    <!-- VIDEO -->
+    <section class="panel" id="p-video">
+      <h2 class="h">Video</h2>
+      <p class="lede">A Dropbox file plays natively - no third-party branding.</p>
+      <span class="sub">Source</span>
+      <div class="opts">
+        <label><input type="radio" name="vi-src" value="dropbox" checked> Dropbox file</label>
+        <label><input type="radio" name="vi-src" value="url"> YouTube / Vimeo</label>
+      </div>
+      <div class="f" id="vi-row-dbx">
+        <label class="fl" for="vi-dbx">Dropbox video URL</label>
+        <input type="text" id="vi-dbx" data-recent="video" placeholder="https://www.dropbox.com/scl/fi/…mp4">
+      </div>
+      <div class="f" id="vi-row-url" hidden>
+        <label class="fl" for="vi-url">YouTube / Vimeo URL</label>
+        <input type="text" id="vi-url" placeholder="https://youtu.be/… or vimeo.com/…">
+      </div>
+      <div class="warn" id="vi-warn">Enter a video link.</div>
+      <div class="g2">
+        <div><label class="fl" for="vi-w">Width</label><input type="text" id="vi-w" value="100%"></div>
+        <div><label class="fl" for="vi-ar">Aspect ratio</label>
+          <select id="vi-ar"><option value="56.25">16:9</option><option value="75">4:3</option><option value="100">1:1</option></select>
+        </div>
+      </div>
+      <div class="f"><label class="fl" for="vi-cap">Caption</label><input type="text" id="vi-cap" placeholder="Optional"></div>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="panel" id="p-gallery">
+      <h2 class="h">Gallery</h2>
+      <p class="lede">A shared folder of photos becomes a masonry grid with a lightbox. Paste into a body field in raw mode.</p>
+      <div class="f">
+        <label class="fl" for="ga-url">Dropbox folder URL</label>
+        <input type="text" id="ga-url" data-recent="folder" placeholder="https://www.dropbox.com/scl/fo/…">
+        <div class="warn" id="ga-warn">Needs a folder link (/scl/fo/), not a file.</div>
+        <div class="recent" id="ga-recent"></div>
+      </div>
+    </section>
+
+    <!-- IFRAME -->
+    <section class="panel" id="p-iframe">
+      <h2 class="h">iFrame</h2>
+      <p class="lede">Maps, tools, anything external.</p>
+      <div class="f">
+        <label class="fl" for="if-url">URL</label>
+        <input type="text" id="if-url" placeholder="https://…">
+        <div class="warn" id="if-warn">Needs a full URL starting https://</div>
+      </div>
+      <div class="g2">
+        <div><label class="fl" for="if-w">Width</label><input type="text" id="if-w" value="100%"></div>
+        <div><label class="fl" for="if-h">Height</label><input type="text" id="if-h" value="400px"></div>
+      </div>
+      <div class="f"><label class="fl" for="if-title">Label</label><input type="text" id="if-title" placeholder="Optional"></div>
+    </section>
+
+    <!-- QR -->
+    <section class="panel" id="p-qr">
+      <h2 class="h">QR</h2>
+      <p class="lede">Any link. SVG stays sharp at any print size - use it for wall labels.</p>
+      <div class="f">
+        <label class="fl" for="qr-url">URL</label>
+        <input type="text" id="qr-url" placeholder="https://thiswastomorrow.co.uk/audio/…">
+        <div class="recent" id="qr-recent"></div>
+        <div class="warn" id="qr-warn">QR library didn't load - check your connection and reload.</div>
+      </div>
+      <div class="g2">
+        <div><label class="fl" for="qr-ec">Error correction</label>
+          <select id="qr-ec"><option value="H" selected>High - best for print</option><option value="Q">Quartile</option><option value="M">Medium</option><option value="L">Low</option></select>
+        </div>
+        <div><label class="fl" for="qr-margin">Quiet margin</label><input type="text" id="qr-margin" value="4"></div>
+      </div>
+    </section>
+
+    <!-- ISBN -->
+    <section class="panel" id="p-isbn">
+      <h2 class="h">ISBN</h2>
+      <p class="lede">The barcode for the back cover. Type the ISBN as Nielsen gives it, hyphens and all. SVG stays sharp in InDesign at any size.</p>
+      <div class="f">
+        <label class="fl" for="is-num">ISBN</label>
+        <input type="text" id="is-num" inputmode="numeric" autocomplete="off" placeholder="978-1-0000-0000-0">
+        <div class="warn" id="is-warn"></div>
+        <div class="hint" id="is-ok"></div>
+      </div>
+      <div class="g2">
+        <div><label class="fl" for="is-price">Price code (optional)</label>
+          <input type="text" id="is-price" inputmode="numeric" maxlength="5" placeholder="e.g. 90000">
+          <div class="hint">Five digits to the right of the barcode. Leave empty unless a distributor or shop asks for one.</div>
+        </div>
+        <div><label class="fl" for="is-size">Size</label>
+          <select id="is-size">
+            <option value="0.8">80% · 29.8 mm wide</option><option value="0.9">90% · 33.6 mm wide</option>
+            <option value="1" selected>100% · 37.3 mm wide</option><option value="1.2">120% · 44.7 mm wide</option>
+          </select>
+          <div class="hint">Keep it between 80% and 200% so shop scanners read it. 100% is the safe choice.</div>
+        </div>
+      </div>
+      <div class="g2">
+        <div><label class="fl" for="is-ink">Bars</label><input type="text" id="is-ink" value="#000000"></div>
+        <div><label class="fl" for="is-bg">Background</label><input type="text" id="is-bg" value="#ffffff">
+          <div class="hint">Dark bars on a light ground. Type <b>none</b> for a see-through background.</div></div>
+      </div>
+      <div class="opts">
+        <label><input type="checkbox" id="is-top" checked> "ISBN …" line above</label>
+      </div>
+    </section>
+
+    <!-- COLOUR -->
+    <section class="panel" id="p-colour">
+      <h2 class="h">Colour</h2>
+      <p class="lede">Click a swatch for A, double-click for B. Check the pair reads before you use it.</p>
+      <span class="sub">Palette</span>
+      <div class="palette" id="col-pal"></div>
+      <hr class="divider">
+      <div class="g2">
+        <div><label class="fl" for="col-a">Colour A</label><input type="text" id="col-a" value="#111111"></div>
+        <div><label class="fl" for="col-b">Colour B</label><input type="text" id="col-b" value="#f7f5f0"></div>
+      </div>
+      <span class="sub">A on B / B on A</span>
+      <div class="pair"><div id="col-ab">Aa Bb Cc 123</div><div id="col-ba">Aa Bb Cc 123</div></div>
+      <p class="hint" id="col-contrast"></p>
+    </section>
+
+    <!-- CSS -->
+    <section class="panel" id="p-css">
+      <h2 class="h">CSS</h2>
+      <p class="lede">Build a rule for style.css. Empty fields are left out.</p>
+      <div class="f"><label class="fl" for="cs-el">Element</label>
+        <select id="cs-el">
+          <option value="article p">Body text (article p)</option>
+          <option value="article h2">Section heading (article h2)</option>
+          <option value="article h3">Sub heading (article h3)</option>
+          <option value=".site-header h1">Site title</option>
+          <option value=".site-header .tagline">Tagline</option>
+          <option value=".audio-track-name">Audio track label</option>
+          <option value=".twt-playlist">Playlist player</option>
+          <option value=".meta">Meta line</option>
+          <option value=".site-footer">Footer</option>
+          <option value="custom">Custom selector…</option>
+        </select>
+      </div>
+      <div class="f" id="cs-custom-row" hidden><label class="fl" for="cs-custom">Custom selector</label><input type="text" id="cs-custom" placeholder=".my-class"></div>
+      <div class="g2">
+        <div><label class="fl" for="cs-fs">Font size</label><input type="text" id="cs-fs" placeholder="16px"></div>
+        <div><label class="fl" for="cs-lh">Line height</label><input type="text" id="cs-lh" placeholder="1.8"></div>
+      </div>
+      <div class="g2">
+        <div><label class="fl" for="cs-col">Colour</label><input type="text" id="cs-col" placeholder="#111 or var(--text)"></div>
+        <div><label class="fl" for="cs-ff">Font family</label><input type="text" id="cs-ff" placeholder="var(--mono)"></div>
+      </div>
+      <div class="g2">
+        <div><label class="fl" for="cs-mt">Margin top</label><input type="text" id="cs-mt" placeholder="32px"></div>
+        <div><label class="fl" for="cs-mb">Margin bottom</label><input type="text" id="cs-mb" placeholder="32px"></div>
+      </div>
+      <div class="g2">
+        <div><label class="fl" for="cs-ls">Letter spacing</label><input type="text" id="cs-ls" placeholder="1.5px"></div>
+        <div><label class="fl" for="cs-fw">Font weight</label><input type="text" id="cs-fw" placeholder="400"></div>
+      </div>
+      <div class="f"><label class="fl" for="cs-other">Other properties</label><textarea id="cs-other" style="height:58px" placeholder="text-transform: uppercase;"></textarea></div>
+    </section>
+
+    <!-- TYPE -->
+    <section class="panel" id="p-type">
+      <h2 class="h">Type</h2>
+      <p class="lede">Try a setting before you commit it to CSS.</p>
+      <div class="f"><label class="fl" for="ty-text">Sample text</label><input type="text" id="ty-text" value="Is this the future we were dreaming of?"></div>
+      <div class="g2">
+        <div><label class="fl" for="ty-font">Font</label>
+          <select id="ty-font">
+            <option value="'Geist','Helvetica Neue',sans-serif">Geist (--sans)</option>
+            <option value="'FreeMono','Courier New',monospace">FreeMono (--mono)</option>
+            <option value="'Averia Serif Libre',Georgia,serif">Averia Serif Libre</option>
+            <option value="'Helvetica Neue',Helvetica,sans-serif">Helvetica Neue</option>
+            <option value="'Courier New',monospace">Courier New</option>
+          </select>
+        </div>
+        <div><label class="fl" for="ty-size">Size</label><input type="text" id="ty-size" value="18px"></div>
+      </div>
+      <div class="g2">
+        <div><label class="fl" for="ty-weight">Weight</label>
+          <select id="ty-weight"><option>300</option><option selected>400</option><option>500</option><option>600</option><option>700</option><option>800</option></select>
+        </div>
+        <div><label class="fl" for="ty-style">Style</label>
+          <select id="ty-style"><option value="normal">Normal</option><option value="italic">Italic</option></select>
+        </div>
+      </div>
+      <div class="g2">
+        <div><label class="fl" for="ty-ls">Letter spacing</label><input type="text" id="ty-ls" value="0"></div>
+        <div><label class="fl" for="ty-lh">Line height</label><input type="text" id="ty-lh" value="1.7"></div>
+      </div>
+      <div class="typeface"><div id="ty-display">Is this the future we were dreaming of?</div></div>
+    </section>
+
+    <!-- SNIPPETS -->
+    <section class="panel" id="p-snippets">
+      <h2 class="h">Snippets</h2>
+      <p class="lede">Ready-made blocks. Pick one, then copy.</p>
+      <div class="snips" id="snip-grid"></div>
+    </section>
+
+    <!-- REFERENCE -->
+    <section class="panel" id="p-ref">
+      <h2 class="h">Reference</h2>
+      <p class="lede">What works inside TWT body fields.</p>
+      <span class="sub">Markdown</span>
+      <table class="ref">
+        <tr><td>## Heading</td><td>Section heading with rule</td></tr>
+        <tr><td>### Heading</td><td>Sub heading, muted mono</td></tr>
+        <tr><td>**bold** / *italic*</td><td>Emphasis</td></tr>
+        <tr><td>[text](url)</td><td>Link</td></tr>
+        <tr><td>![alt](url)</td><td>Image - use a Dropbox raw URL</td></tr>
+        <tr><td>- item / 1. item</td><td>Lists</td></tr>
+        <tr><td>&gt; text</td><td>Blockquote</td></tr>
+        <tr><td>---</td><td>Horizontal rule</td></tr>
+        <tr><td># Heading</td><td>h1 - reserved for the page title, don't use</td></tr>
+      </table>
+      <span class="sub">Raw HTML - works because unsafe = true</span>
+      <table class="ref">
+        <tr><td><code>&lt;img src="…" style="width:100%"&gt;</code></td><td>Full-width image</td></tr>
+        <tr><td><code>&lt;div class="audio-track" data-twt-bg="…"&gt;</code></td><td>Custom audio player</td></tr>
+        <tr><td><code>&lt;div style="display:grid;…"&gt;</code></td><td>Column layouts</td></tr>
+      </table>
+      <span class="sub">Hugo shortcodes - run before markdown</span>
+      <table class="ref">
+        <tr><td><code>{{&lt; audio-playlist url="…" &gt;}}</code></td><td>Folder playlist</td></tr>
+      </table>
+      <span class="sub">Doesn't work</span>
+      <table class="ref">
+        <tr><td><code>&lt;script&gt;</code></td><td>Stripped by markdownify, even with unsafe. Use a shortcode instead.</td></tr>
+      </table>
+      <span class="sub">Exhibit front matter</span>
+      <table class="ref">
+        <tr><td>title / location</td><td>Shown on the exhibit page</td></tr>
+        <tr><td>exhibit_speaker</td><td>The voice</td></tr>
+        <tr><td>exhibit_image</td><td>Bitmapped backdrop</td></tr>
+        <tr><td>cap</td><td>Optional page text</td></tr>
+      </table>
+    </section>
+
+    <!-- OUTPUT (shared) -->
+    <div class="out-wrap" id="outWrap">
+      <div class="out-head">
+        <span class="out-title" id="outTitle">Output</span>
+        <span class="live">Live</span>
+        <span class="out-sp"></span>
+        <button class="cp ghost" id="clearBtn" type="button">Clear</button>
+        <button class="cp" id="copyBtn" type="button">Copy</button>
+      </div>
+      <textarea class="code" id="out" readonly onclick="this.select()" placeholder="Fill the fields above - the code appears here as you type."></textarea>
+      <div class="out-head" id="rawHead" hidden style="margin-top:14px">
+        <span class="out-title">Direct URL</span><span class="out-sp"></span>
+        <button class="cp ghost" id="copyRawBtn" type="button">Copy URL</button>
+      </div>
+      <textarea class="code short" id="outRaw" readonly hidden onclick="this.select()"></textarea>
+      <div class="prev" id="preview" hidden><span class="prev-l">Preview</span><div id="previewBody"></div></div>
+    </div>
+
+  </main>
+</div>
+
+<div class="lb" id="lb"><div><img id="lbImg" alt=""><div class="lb-cap" id="lbCap"></div></div></div>
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@2.0.4/dist/qrcode.js"></script>
+<script>
+/* ============ CONSTANTS ============ */
+var PROXY = 'https://dropbox-proxy.cardopoli.workers.dev';
+var PALETTE = [
+  ['#111111','Text'], ['#f7f5f0','Paper'], ['#666666','Muted'], ['#cccccc','Rule'],
+  ['#077533','Green'], ['#041801','Dark green'], ['#f54927','Orange'], ['#27f5b0','Mint'],
+  ['#c6f500','Fluo'], ['#b5b800','Acid'], ['#ffffff','White'], ['#000000','Black']
+];
+var TOOLS = [
+  ['Embed', [['image','Image'],['layout','Layout'],['audio','Audio'],['playlist','Playlist'],['video','Video'],['gallery','Gallery'],['iframe','iFrame']]],
+  ['Make',  [['qr','QR'],['isbn','ISBN'],['colour','Colour'],['css','CSS'],['type','Type']]],
+  ['Library',[['snippets','Snippets'],['ref','Reference']]]
+];
+var NO_OUTPUT = { colour:1, type:1, ref:1 };
+
+/* ============ PER-SITE SETTINGS ============
+   This file is the same on every site. What changes lives in studio.json next to it
+   (edited in Sveltia under Settings > Studio): the name, which tabs show, the accent
+   colour and the swatches in Colour. No studio.json = TWT defaults, every tab. */
+function applySettings(c) {
+  if (!c || typeof c !== 'object') return;
+  if (c.name) { $('brandName').textContent = c.name; document.title = c.name + ' · Studio'; }
+  if (c.tabs && c.tabs.length) {
+    var keep = {}; c.tabs.forEach(function (k) { keep[k] = 1; });
+    TOOLS = TOOLS.map(function (g) { return [g[0], g[1].filter(function (t) { return keep[t[0]]; })]; })
+                 .filter(function (g) { return g[1].length; });
+  }
+  if (c.palette && c.palette.length) {
+    PALETTE = c.palette.map(function (p) { return [p.colour, p.name || p.colour]; });
+    $('col-a').value = PALETTE[0][0]; if (PALETTE[1]) $('col-b').value = PALETTE[1][0];
+  }
+  var css = '';
+  if (c.accent) css += ':root{--accent:' + c.accent + '}';
+  if (c.accent_dark) css += '[data-theme="dark"]{--accent:' + c.accent_dark + '}';
+  if (css) { var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st); }
+  if (c.dropbox_proxy) PROXY = c.dropbox_proxy.replace(/\/$/, '');
+}
+function allTabs() { var a = []; TOOLS.forEach(function (g) { g[1].forEach(function (t) { a.push(t[0]); }); }); return a; }
+
+/* ============ STORAGE (degrades quietly) ============ */
+function store(k, v) { try { if (v === undefined) { var r = localStorage.getItem('twt.'+k); return r ? JSON.parse(r) : null; } localStorage.setItem('twt.'+k, JSON.stringify(v)); } catch (e) { return null; } }
+function remember(kind, url) {
+  if (!url || url.length < 12) return;
+  var list = store('recent.'+kind) || [];
+  list = list.filter(function (u) { return u !== url; });
+  list.unshift(url);
+  store('recent.'+kind, list.slice(0, 4));
+  paintRecent();
+}
+function paintRecent() {
+  document.querySelectorAll('.recent').forEach(function (box) {
+    var input = box.parentNode.querySelector('[data-recent]');
+    if (!input) return;
+    var list = store('recent.' + input.dataset.recent) || [];
+    box.innerHTML = '';
+    list.forEach(function (u) {
+      var b = document.createElement('button');
+      b.className = 'chip'; b.type = 'button';
+      b.textContent = u.replace(/^https?:\/\/(www\.)?/, '').slice(0, 40);
+      b.title = u;
+      b.onclick = function () { input.value = u; render(); };
+      box.appendChild(b);
+    });
+  });
+}
+
+/* ============ HELPERS ============ */
+function $(id) { return document.getElementById(id); }
+function v(id) { var e = $(id); return e ? e.value.trim() : ''; }
+function radio(name) { var e = document.querySelector('input[name="'+name+'"]:checked'); return e ? e.value : ''; }
+function checked(id) { var e = $(id); return e ? e.checked : false; }
+function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function toRaw(url) { return /[?&]dl=[01]/.test(url) ? url.replace(/([?&])dl=[01]/,'$1raw=1') : url + (url.indexOf('?') === -1 ? '?' : '&') + 'raw=1'; }
+function isDbx(u) { return u && u.indexOf('dropbox.com') !== -1; }
+function isFolder(u) { return isDbx(u) && u.indexOf('/scl/fo/') !== -1; }
+function warn(id, on) { var e = $(id); if (e) e.classList.toggle('on', !!on); }
+function toast(msg) { var t = $('toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(t._t); t._t = setTimeout(function(){ t.classList.remove('on'); }, 1600); }
+function copyText(text, label) {
+  if (!text) { toast('Nothing to copy'); return; }
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(function(){ toast(label + ' copied'); }, fallback);
+  } else fallback();
+  function fallback() {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); toast(label + ' copied'); } catch (e) { toast('Copy failed - select and copy manually'); }
+    document.body.removeChild(ta);
+  }
+}
+function sizeSet(size) {
+  return {
+    pad:  size === 'compact' ? '10px 14px' : size === 'large' ? '20px 24px' : '14px 18px',
+    btn:  size === 'compact' ? '12px'      : size === 'large' ? '20px'      : '16px',
+    time: size === 'compact' ? '10px'      : size === 'large' ? '14px'      : '12px'
+  };
+}
+
+/* ============ NAV ============ */
+var current;
+function buildRail() {
+  var rail = $('rail');
+  TOOLS.forEach(function (group) {
+    var g = document.createElement('div');
+    g.className = 'rail-group'; g.textContent = group[0];
+    rail.appendChild(g);
+    group[1].forEach(function (t) {
+      var b = document.createElement('button');
+      b.className = 'rail-btn'; b.type = 'button'; b.textContent = t[1];
+      b.dataset.tool = t[0];
+      b.onclick = function () { go(t[0]); };
+      rail.appendChild(b);
+    });
+  });
+}
+function go(tool) {
+  current = tool; store('tool', tool);
+  document.querySelectorAll('.rail-btn').forEach(function (b) { b.setAttribute('aria-current', b.dataset.tool === tool ? 'true' : 'false'); });
+  document.querySelectorAll('.panel').forEach(function (p) { p.classList.toggle('on', p.id === 'p-' + tool); });
+  $('outWrap').hidden = !!NO_OUTPUT[tool];
+  $('outWrap').classList.toggle('prev-only', tool === 'isbn');
+  render();
+}
+
+/* ============ RENDER ROUTER ============ */
+var T;
+function render() {
+  clearTimeout(T);
+  T = setTimeout(function () {
+    var out = { code:'', raw:'', preview:'', title:'Output' };
+    var fn = BUILD[current];
+    if (fn) fn(out);
+    $('out').value = out.code;
+    $('outTitle').textContent = out.title;
+    $('rawHead').hidden = !out.raw; $('outRaw').hidden = !out.raw; $('outRaw').value = out.raw || '';
+    var pv = $('preview');
+    if (out.preview) { $('previewBody').innerHTML = out.preview; pv.hidden = false; wirePreview(); }
+    else { pv.hidden = true; $('previewBody').innerHTML = ''; }
+  }, 90);
+}
+function wirePreview() {
+  $('previewBody').querySelectorAll('img[data-full]').forEach(function (img) {
+    img.style.cursor = 'zoom-in';
+    img.onclick = function () { lbOpen(img.dataset.full, img.dataset.cap || ''); };
+  });
+}
+
+/* ============ BUILDERS ============ */
+var BUILD = {};
+
+BUILD.image = function (o) {
+  var url = v('im-url'); warn('im-warn', url && !isDbx(url));
+  if (!isDbx(url)) return;
+  remember('image', url);
+  var d = toRaw(url), alt = esc(v('im-alt')), cap = esc(v('im-cap'));
+  var w = v('im-w'), mw = v('im-mw'), al = v('im-al'), fmt = radio('im-fmt');
+  var p = [];
+  if (w) p.push('width:' + w);
+  if (mw) p.push('max-width:' + mw);
+  if (al === 'center') p.push('display:block', 'margin:0 auto');
+  else if (al === 'float-left') p.push('float:left', 'margin:0 24px 16px 0');
+  else if (al === 'float-right') p.push('float:right', 'margin:0 0 16px 24px');
+  var style = p.length ? ' style="' + p.join('; ') + '"' : '';
+  if (fmt === 'html') { o.code = '<img src="' + d + '" alt="' + alt + '"' + style + '>'; o.title = 'HTML'; }
+  else if (fmt === 'figure') {
+    o.code = '<figure' + (mw ? ' style="max-width:' + mw + '"' : '') + '>\n  <img src="' + d + '" alt="' + alt + '" style="width:100%">\n'
+           + (cap ? '  <figcaption>' + cap + '</figcaption>\n' : '') + '</figure>';
+    o.title = 'Figure';
+  } else { o.code = '![' + alt + '](' + d + ')' + (cap ? '\n*' + cap + '*' : ''); o.title = 'Markdown'; }
+  o.raw = d;
+  o.preview = '<img src="' + d + '" alt="' + alt + '" data-full="' + d + '" data-cap="' + cap + '">'
+            + (cap ? '<p style="font-size:11px;color:var(--muted);margin-top:7px;font-style:italic">' + cap + '</p>' : '');
+};
+
+var LAYOUTS = { single:1, double:2, triple:3, portrait:2, 'left-wide':2, stacked:2 };
+var layout = store('layout') || 'single';
+(function buildCards() {
+  var defs = [['single','Single',[1]],['double','Double',[1,1]],['triple','Triple',[1,1,1]],
+              ['portrait','Portrait + wide',[0.65,1]],['left-wide','Wide left',[1.75,1]],['stacked','Stacked',[1,1]]];
+  var box = $('lay-cards');
+  defs.forEach(function (d) {
+    var b = document.createElement('button');
+    b.className = 'card'; b.type = 'button';
+    var bars = d[2].map(function (f) { return '<div style="flex:' + f + '"></div>'; }).join('');
+    b.innerHTML = '<div class="ic"' + (d[0] === 'stacked' ? ' style="flex-direction:column;gap:2px"' : '') + '>' + bars + '</div><div class="lb">' + d[1] + '</div>';
+    b.onclick = function () { layout = d[0]; store('layout', d[0]); paintCards(); render(); };
+    b.dataset.layout = d[0];
+    box.appendChild(b);
+  });
+})();
+function paintCards() {
+  document.querySelectorAll('.card').forEach(function (c) { c.setAttribute('aria-pressed', c.dataset.layout === layout ? 'true' : 'false'); });
+  var n = LAYOUTS[layout] || 1;
+  for (var i = 1; i <= 3; i++) $('lay-slot-' + i).hidden = i > n;
+}
+BUILD.layout = function (o) {
+  var n = LAYOUTS[layout] || 1, imgs = [], missing = false;
+  for (var i = 1; i <= n; i++) {
+    var u = v('lay-url-' + i);
+    if (!isDbx(u)) { missing = true; continue; }
+    remember('image', u);
+    imgs.push({ src: toRaw(u), alt: esc(v('lay-alt-' + i)), cap: esc(v('lay-cap-' + i)) });
+  }
+  warn('lay-warn', missing && imgs.length > 0);
+  if (imgs.length !== n) return;
+  var gcap = esc(v('lay-gcap'));
+  var lbGroup = 'g' + Math.random().toString(36).slice(2, 6);
+  function tag(im, st) {
+    return '<a class="twt-lb" data-full="' + im.src + '" style="cursor:zoom-in;display:block;height:100%">'
+         + '<img src="' + im.src + '" alt="' + im.alt + '" style="' + st + ';display:block">'
+         + '</a>';
+  }
+  var capLine = function (t) { return t ? '\n<p style="font-size:11px;color:#666;margin-top:6px;font-style:italic">' + t + '</p>' : ''; };
+  var code = '';
+  if (layout === 'single') {
+    code = '<div data-lb-group="' + lbGroup + '" style="margin-bottom:4px">\n<figure style="margin:0;width:100%">\n  ' + tag(imgs[0], 'width:100%') + '\n'
+         + ((imgs[0].cap || gcap) ? '  <figcaption style="font-size:11px;color:#666;margin-top:6px;font-style:italic">' + (imgs[0].cap || gcap) + '</figcaption>\n' : '') + '</figure>\n</div>';
+  } else {
+    var cols = layout === 'triple' ? '1fr 1fr 1fr' : layout === 'portrait' ? '0.65fr 1fr'
+             : layout === 'left-wide' ? '1.75fr 1fr' : layout === 'stacked' ? '1fr' : '1fr 1fr';
+    var fit = layout === 'double' || layout === 'triple' ? 'width:100%;height:100%;object-fit:cover' 
+            : layout === 'portrait' || layout === 'left-wide' ? 'width:100%;height:100%;object-fit:cover'
+            : 'width:100%';
+    code = '<div data-lb-group="' + lbGroup + '" style="margin-bottom:4px">\n<div style="display:grid;grid-template-columns:' + cols + ';gap:4px;align-items:stretch">\n';
+    imgs.forEach(function (im) { code += '  <div style="height:100%">' + tag(im, fit) + '</div>\n'; });
+    code += '</div>\n</div>' + capLine(gcap);
+  }
+  o.code = code; o.title = 'Layout - ' + layout;
+  var pcols = layout === 'triple' ? '1fr 1fr 1fr' : layout === 'portrait' ? '0.65fr 1fr'
+            : layout === 'left-wide' ? '1.75fr 1fr' : layout === 'stacked' ? '1fr' : '1fr 1fr';
+  o.preview = '<div style="display:grid;grid-template-columns:' + pcols + ';gap:4px;align-items:stretch">'
+    + imgs.map(function (im) { 
+      var pfit = 'width:100%;height:100%;object-fit:cover';
+      return '<img src="' + im.src + '" alt="' + im.alt + '" data-full="' + im.src + '" data-cap="' + im.cap + '" style="' + pfit + '">';
+    }).join('')
+    + '</div>' + (gcap ? '<p style="font-size:11px;color:var(--muted);margin-top:7px;font-style:italic">' + gcap + '</p>' : '');
+};
+
+BUILD.audio = function (o) {
+  $('au-cols').hidden = radio('au-sch') !== 'custom';
+  var url = v('au-url'); warn('au-warn', url && !isDbx(url));
+  if (!isDbx(url)) return;
+  remember('audio', url);
+  var d = toRaw(url), title = esc(v('au-title')), w = v('au-w') || '100%';
+  var sch = radio('au-sch'), bg = '#111111', fg = '#f7f5f0';
+  if (sch === 'light') { bg = '#f7f5f0'; fg = '#111111'; }
+  else if (sch === 'custom') { bg = v('au-bg') || '#111111'; fg = v('au-fg') || '#f7f5f0'; }
+  var s = sizeSet(radio('au-size')), border = v('au-border');
+  var code = '<div class="audio-track" data-twt-bg="' + bg + '" data-twt-fg="' + fg + '" data-twt-pad="' + s.pad
+           + '" data-twt-btn-size="' + s.btn + '" data-twt-time-size="' + s.time + '" data-twt-show-timer="' + (checked('au-timer') ? '1' : '0') + '">\n';
+  if (title && checked('au-showtitle')) code += '  <p class="audio-track-name">' + title + '</p>\n';
+  code += '  <audio controls preload="none" style="width:' + w + '" src="' + d + '"></audio>\n</div>';
+  o.code = code; o.raw = d; o.title = 'Audio player';
+  var bs = border === 'rule' ? 'border-top:1px solid ' + fg + ';' : border === 'box' ? 'border:1px solid ' + fg + ';' : '';
+  o.preview = (title && checked('au-showtitle') ? '<p style="font-size:11px;margin-bottom:7px;letter-spacing:1px">' + title + '</p>' : '')
+    + '<div style="background:' + bg + ';padding:' + s.pad + ';' + bs + 'display:flex;align-items:center;gap:14px">'
+    + '<span style="color:' + fg + ';font-size:' + s.btn + ';line-height:1">&#9654;</span>'
+    + '<span style="flex:1;height:3px;background:' + fg + ';opacity:.28"></span>'
+    + (checked('au-timer') ? '<span style="color:' + fg + ';opacity:.65;font-size:' + s.time + '">0:00 / 0:00</span>' : '') + '</div>';
+};
+
+BUILD.playlist = function (o) {
+  $('pl-cols').hidden = radio('pl-sch') !== 'custom';
+  var url = v('pl-url'); warn('pl-warn', url && !isFolder(url));
+  if (!isFolder(url)) return;
+  remember('folder', url);
+  var sch = radio('pl-sch'), bg = '#111111', fg = '#f7f5f0';
+  if (sch === 'light') { bg = '#f7f5f0'; fg = '#111111'; }
+  else if (sch === 'transparent') { bg = 'transparent'; fg = '#f7f5f0'; }
+  else if (sch === 'custom') { bg = v('pl-bg') || '#111111'; fg = v('pl-fg') || '#f7f5f0'; }
+  var s = sizeSet(radio('pl-size'));
+  o.code = '{{< audio-playlist url="' + url + '" bg="' + bg + '" fg="' + fg + '" pad="' + s.pad
+         + '" btnsize="' + s.btn + '" timesize="' + s.time + '" timer="' + (checked('pl-timer') ? '1' : '0') + '" >}}';
+  o.title = 'Hugo shortcode';
+  var swatch = bg === 'transparent' ? 'repeating-linear-gradient(45deg,#3a3a3a 0 6px,#2c2c2c 6px 12px)' : bg;
+  o.preview = '<div style="background:' + swatch + ';padding:' + s.pad + ';display:flex;align-items:center;gap:14px">'
+    + '<span style="color:' + fg + ';font-size:' + s.btn + ';line-height:1">&#9654;</span>'
+    + '<span style="flex:1;height:3px;background:' + fg + ';opacity:.28"></span>'
+    + (checked('pl-timer') ? '<span style="color:' + fg + ';opacity:.65;font-size:' + s.time + '">0:00 / 0:00</span>' : '') + '</div>';
+};
+
+BUILD.video = function (o) {
+  var dbxMode = radio('vi-src') === 'dropbox';
+  $('vi-row-dbx').hidden = !dbxMode; $('vi-row-url').hidden = dbxMode;
+  var w = v('vi-w') || '100%', ar = v('vi-ar') || '56.25', cap = esc(v('vi-cap'));
+  var capLine = cap ? '\n<p style="font-size:11px;color:#666;margin-top:6px;font-style:italic">' + cap + '</p>' : '';
+  if (dbxMode) {
+    var u = v('vi-dbx'); warn('vi-warn', u && !isDbx(u));
+    if (!isDbx(u)) return;
+    remember('video', u);
+    var d = toRaw(u);
+    o.code = '<video controls preload="metadata" style="width:' + w + '" src="' + d + '"></video>' + capLine;
+    o.raw = d; o.title = 'Video';
+    o.preview = '<video controls preload="metadata" src="' + d + '" style="width:100%"></video>';
+  } else {
+    var u2 = v('vi-url'); warn('vi-warn', u2 && !/^https?:\/\//.test(u2));
+    if (!u2 || !/^https?:\/\//.test(u2)) return;
+    var yt = u2.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+    var vi = u2.match(/vimeo\.com\/(\d+)/);
+    var emb = yt ? 'https://www.youtube-nocookie.com/embed/' + yt[1] : vi ? 'https://player.vimeo.com/video/' + vi[1] : u2;
+    o.code = '<div style="position:relative;width:' + w + ';padding-bottom:' + ar + '%;height:0;overflow:hidden">\n'
+           + '  <iframe src="' + emb + '" style="position:absolute;inset:0;width:100%;height:100%;border:none" allowfullscreen loading="lazy"></iframe>\n</div>' + capLine;
+    o.title = 'Embedded video';
+    o.preview = '<div style="position:relative;width:100%;padding-bottom:' + ar + '%;height:0;overflow:hidden">'
+              + '<iframe src="' + emb + '" style="position:absolute;inset:0;width:100%;height:100%;border:none" allowfullscreen></iframe></div>';
+  }
+};
+
+BUILD.gallery = function (o) {
+  var url = v('ga-url'); warn('ga-warn', url && !isFolder(url));
+  if (!isFolder(url)) return;
+  remember('folder', url);
+  var uid = 'gal-' + Math.random().toString(36).slice(2, 7);
+  o.code = '<div class="dbx-gallery" id="' + uid + '" aria-live="polite">\n'
+    + '  <div class="dbx-skeleton"><div class="dbx-skeleton-item"></div><div class="dbx-skeleton-item"></div><div class="dbx-skeleton-item"></div><div class="dbx-skeleton-item"></div></div>\n</div>\n'
+    + '<scr' + 'ipt>(function(){function run(){window._twt.buildGallery(\'' + PROXY + '\',\'' + url.replace(/'/g, "\\'") + '\',\'' + uid + '\');}'
+    + 'if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",run);}else{run();}})()</scr' + 'ipt>';
+  o.title = 'Gallery - paste in raw mode';
+};
+
+BUILD.iframe = function (o) {
+  var url = v('if-url'); warn('if-warn', url && !/^https?:\/\//.test(url));
+  if (!url || !/^https?:\/\//.test(url)) return;
+  var w = v('if-w') || '100%', h = (v('if-h') || '400px').replace('px', ''), title = esc(v('if-title'));
+  o.code = (title ? '<p class="audio-track-name">' + title + '</p>\n' : '')
+    + '<iframe src="' + url + '" width="' + w + '" height="' + h + '" frameborder="0" allowfullscreen loading="lazy"></iframe>';
+  o.title = 'iFrame';
+  o.preview = '<iframe src="' + url + '" width="100%" height="' + h + '" frameborder="0" allowfullscreen></iframe>';
+};
+
+BUILD.qr = function (o) {
+  var url = v('qr-url');
+  if (!url) return;
+  if (typeof qrcode !== 'function') { warn('qr-warn', true); return; }
+  warn('qr-warn', false);
+  remember('qr', url);
+  var m = parseInt(v('qr-margin'), 10); if (isNaN(m)) m = 4;
+  var q = qrcode(0, v('qr-ec') || 'H');
+  q.addData(url); q.make();
+  var n = q.getModuleCount(), dim = n + m * 2, rects = '';
+  for (var r = 0; r < n; r++) for (var c = 0; c < n; c++) if (q.isDark(r, c)) rects += '<rect x="' + (c + m) + '" y="' + (r + m) + '" width="1" height="1"/>';
+  var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + dim + ' ' + dim + '" shape-rendering="crispEdges">'
+          + '<rect width="' + dim + '" height="' + dim + '" fill="#ffffff"/><g fill="#111111">' + rects + '</g></svg>';
+  o.code = svg; o.title = 'QR - SVG (' + n + '×' + n + ' modules)';
+  o.preview = '<div style="background:#fff;padding:18px;display:inline-block">'
+    + svg.replace('<svg ', '<svg width="190" height="190" ') + '</div>'
+    + '<div style="display:flex;gap:10px;margin-top:14px">'
+    + '<button class="cp" type="button" onclick="qrSave(\'svg\')">Download SVG</button>'
+    + '<button class="cp ghost" type="button" onclick="qrSave(\'png\')">Download PNG</button></div>';
+};
+function qrSave(fmt) {
+  var url = v('qr-url'); if (!url || typeof qrcode !== 'function') return;
+  var m = parseInt(v('qr-margin'), 10); if (isNaN(m)) m = 4;
+  var q = qrcode(0, v('qr-ec') || 'H'); q.addData(url); q.make();
+  var name = 'qr-' + url.replace(/https?:\/\//, '').replace(/[^a-z0-9]+/gi, '-').replace(/^-+|-+$/g, '').toLowerCase();
+  var a = document.createElement('a');
+  if (fmt === 'svg') {
+    a.href = URL.createObjectURL(new Blob([$('out').value], { type: 'image/svg+xml' }));
+    a.download = name + '.svg';
+  } else {
+    var n = q.getModuleCount(), cs = 24, dim = (n + m * 2) * cs;
+    var cv = document.createElement('canvas'); cv.width = cv.height = dim;
+    var x = cv.getContext('2d');
+    x.fillStyle = '#ffffff'; x.fillRect(0, 0, dim, dim); x.fillStyle = '#111111';
+    for (var r = 0; r < n; r++) for (var c = 0; c < n; c++) if (q.isDark(r, c)) x.fillRect((c + m) * cs, (r + m) * cs, cs, cs);
+    a.href = cv.toDataURL('image/png'); a.download = name + '.png';
+  }
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  toast(fmt.toUpperCase() + ' downloaded');
+}
+
+/* ============ ISBN (EAN-13 + optional EAN-5 price code) ============ */
+var EAN_L = ['0001101','0011001','0010011','0111101','0100011','0110001','0101111','0111011','0110111','0001011'];
+var EAN_G = ['0100111','0110011','0011011','0100001','0011101','0111001','0000101','0010001','0001001','0010111'];
+var EAN_R = ['1110010','1100110','1101100','1000010','1011100','1001110','1010000','1000100','1001000','1110100'];
+var EAN_FIRST = ['LLLLLL','LLGLGG','LLGGLG','LLGGGL','LGLLGG','LGGLLG','LGGGLL','LGLGLG','LGLGGL','LGGLGL'];
+var EAN5_PAR = ['GGLLL','GLGLL','GLLGL','GLLLG','LGGLL','LLGGL','LLLGG','LGLGL','LGLLG','LLGLG'];
+function isbnCheck13(d12) { var s = 0; for (var i = 0; i < 12; i++) s += (+d12[i]) * (i % 2 ? 3 : 1); return String((10 - s % 10) % 10); }
+function isbnParse(raw) {
+  var clean = raw.replace(/^isbn(-1[03])?:?\s*/i, '').replace(/[\s‐-―-]/g, '').toUpperCase();
+  if (/^\d{9}[\dX]$/.test(clean)) {               // ISBN-10: check it, then convert to 978…
+    var s = 0; for (var i = 0; i < 10; i++) s += (clean[i] === 'X' ? 10 : +clean[i]) * (10 - i);
+    if (s % 11) return { err: 'The last digit doesn\'t match - one of the digits is probably mistyped.' };
+    var d12 = '978' + clean.slice(0, 9), d = d12 + isbnCheck13(d12);
+    return { digits: d, label: 'ISBN ' + d.slice(0, 3) + '-' + raw.replace(/^isbn(-10)?:?\s*/i, '').trim().replace(/[\dX]$/i, d[12]), note: 'Converted from a 10-digit ISBN.' };
+  }
+  if (!/^\d{13}$/.test(clean)) return { err: clean.length ? 'An ISBN has 13 digits (or 10 for an old one) - this has ' + clean.replace(/\D/g, '').length + '.' : '' };
+  if (!/^97[89]/.test(clean)) return { err: 'A book ISBN starts with 978 or 979.' };
+  if (isbnCheck13(clean.slice(0, 12)) !== clean[12]) return { err: 'The last digit should be ' + isbnCheck13(clean.slice(0, 12)) + ' - one of the digits is probably mistyped.' };
+  var typed = raw.replace(/^isbn(-13)?:?\s*/i, '').trim();
+  return { digits: clean, label: 'ISBN ' + (/[-\s]/.test(typed) ? typed.replace(/\s+/g, '-') : clean) };
+}
+function eanBits(d) {
+  var b = '101', p = EAN_FIRST[+d[0]];
+  for (var i = 1; i <= 6; i++) b += (p[i - 1] === 'L' ? EAN_L : EAN_G)[+d[i]];
+  b += '01010';
+  for (i = 7; i <= 12; i++) b += EAN_R[+d[i]];
+  return b + '101';
+}
+function ean5Bits(p) {
+  var c = (3 * (+p[0] + +p[2] + +p[4]) + 9 * (+p[1] + +p[3])) % 10, par = EAN5_PAR[c], b = '1011';
+  for (var i = 0; i < 5; i++) { if (i) b += '01'; b += (par[i] === 'L' ? EAN_L : EAN_G)[+p[i]]; }
+  return b;
+}
+function runs(bits, x0, X, y, h, extra) {          // merge neighbouring dark modules into single rectangles
+  var out = '';
+  for (var i = 0; i < bits.length; i++) if (bits[i] === '1') {
+    var j = i; while (j + 1 < bits.length && bits[j + 1] === '1') j++;
+    var guard = extra && extra(i);
+    out += '<rect x="' + r3(x0 + i * X) + '" y="' + r3(y) + '" width="' + r3((j - i + 1) * X) + '" height="' + r3(h + (guard ? 5 * X : 0)) + '"/>';
+    i = j;
+  }
+  return out;
+}
+function r3(n) { return Math.round(n * 1000) / 1000; }
+function isbnSVG() {
+  var r = isbnParse(v('is-num'));
+  if (!r.digits) return r;
+  var price = v('is-price').replace(/\D/g, '');
+  if (price && price.length !== 5) return { err: 'The price code needs exactly 5 digits.' };
+  var mag = parseFloat(v('is-size')) || 1, X = 0.33 * mag, H = 22.85 * mag, top = $('is-top').checked;
+  var ink = v('is-ink') || '#000000', bg = (v('is-bg') || '#ffffff').toLowerCase();
+  var qL = 11 * X, mainW = 95 * X, gap = 9 * X, addW = 47 * X, qR = (price ? 5 : 7) * X;
+  var W = qL + mainW + (price ? gap + addW : 0) + qR;
+  var fs = 2.75 * mag, head = top ? 3.4 * mag : 0.6 * mag, y0 = head, Ht = y0 + H + 5 * X + 0.4 * mag;
+  var bits = eanBits(r.digits);
+  var isGuard = function (i) { return i < 3 || (i >= 45 && i < 50) || i >= 92; };
+  var d = r.digits, font = "font-family=\"'OCR-B','OCRB','OCR B Std','Courier New',monospace\"";
+  var text = '<text x="' + r3(qL - 1.6 * X) + '" y="' + r3(y0 + H + 4.6 * X) + '" font-size="' + r3(fs) + '" text-anchor="end" ' + font + '>' + d[0] + '</text>'
+    + '<text x="' + r3(qL + 3 * X + 21 * X) + '" y="' + r3(y0 + H + 4.6 * X) + '" font-size="' + r3(fs) + '" text-anchor="middle" letter-spacing="' + r3(0.62 * mag) + '" ' + font + '>' + d.slice(1, 7) + '</text>'
+    + '<text x="' + r3(qL + 50 * X + 21 * X) + '" y="' + r3(y0 + H + 4.6 * X) + '" font-size="' + r3(fs) + '" text-anchor="middle" letter-spacing="' + r3(0.62 * mag) + '" ' + font + '>' + d.slice(7) + '</text>';
+  if (top) text += '<text x="' + r3(qL + mainW / 2) + '" y="' + r3(2.6 * mag) + '" font-size="' + r3(2.6 * mag) + '" text-anchor="middle" font-family="Helvetica, Arial, sans-serif">' + r.label + '</text>';
+  var add = '';
+  if (price) {
+    var ax = qL + mainW + gap, ay = y0 + fs + 0.6 * mag;
+    add = runs(ean5Bits(price), ax, X, ay, y0 + H + 5 * X - ay)
+      + '<text x="' + r3(ax + addW / 2) + '" y="' + r3(y0 + fs - 0.2 * mag) + '" font-size="' + r3(fs) + '" text-anchor="middle" letter-spacing="' + r3(0.62 * mag) + '" ' + font + '>' + price + '</text>';
+  }
+  var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' + r3(W) + 'mm" height="' + r3(Ht) + 'mm" viewBox="0 0 ' + r3(W) + ' ' + r3(Ht) + '" shape-rendering="crispEdges">'
+    + (bg && bg !== 'none' && bg !== 'transparent' ? '<rect width="' + r3(W) + '" height="' + r3(Ht) + '" fill="' + bg + '"/>' : '')
+    + '<g fill="' + ink + '">' + runs(bits, qL, X, y0, H, isGuard) + add + text + '</g></svg>';
+  return { svg: svg, digits: d, label: r.label, note: r.note, W: W, Ht: Ht };
+}
+BUILD.isbn = function (o) {
+  var res = isbnSVG();
+  $('is-warn').textContent = res.err || ''; warn('is-warn', !!res.err);
+  $('is-ok').textContent = res.svg ? '✓ Valid. ' + (res.note ? res.note + ' ' : '') + 'Barcode number ' + res.digits + '.' : '';
+  if (!res.svg) return;
+  o.code = res.svg; o.title = 'ISBN barcode - SVG (' + r3(res.W) + ' × ' + r3(res.Ht) + ' mm)';
+  o.preview = '<div class="isbn-prev">' + res.svg.replace(/ width="[\d.]+mm" height="[\d.]+mm"/, ' width="100%"') + '</div>'
+    + '<div class="isbn-btns"><button class="cp" type="button" onclick="isbnSave(\'svg\')">Download SVG</button>'
+    + '<button class="cp ghost" type="button" onclick="isbnSave(\'png\')">Download PNG</button></div>'
+    + '<p class="hint">The digits use OCR-B if your computer has it, otherwise a similar monospace. In InDesign, place the SVG at 100% - don\'t stretch it.</p>';
+};
+function isbnSave(fmt) {
+  var res = isbnSVG(); if (!res.svg) return;
+  var name = 'isbn-' + res.digits + (v('is-price') ? '-' + v('is-price') : '');
+  var a = document.createElement('a');
+  function go(href, ext) { a.href = href; a.download = name + ext; document.body.appendChild(a); a.click(); document.body.removeChild(a); toast(ext.slice(1).toUpperCase() + ' downloaded'); }
+  if (fmt === 'svg') return go(URL.createObjectURL(new Blob([res.svg], { type: 'image/svg+xml' })), '.svg');
+  var dpmm = 1200 / 25.4, img = new Image();       // 1200 dpi, same physical size as the SVG
+  img.onload = function () {
+    var cv = document.createElement('canvas'); cv.width = Math.round(res.W * dpmm); cv.height = Math.round(res.Ht * dpmm);
+    cv.getContext('2d').drawImage(img, 0, 0, cv.width, cv.height);
+    go(cv.toDataURL('image/png'), '.png');
+  };
+  img.src = URL.createObjectURL(new Blob([res.svg], { type: 'image/svg+xml' }));
+}
+
+BUILD.css = function (o) {
+  var el = v('cs-el');
+  $('cs-custom-row').hidden = el !== 'custom';
+  var sel = el === 'custom' ? v('cs-custom') : el;
+  if (!sel) return;
+  var props = [];
+  [['cs-fs','font-size'],['cs-fw','font-weight'],['cs-ff','font-family'],['cs-col','color'],
+   ['cs-lh','line-height'],['cs-ls','letter-spacing'],['cs-mt','margin-top'],['cs-mb','margin-bottom']]
+   .forEach(function (p) { var val = v(p[0]); if (val) props.push('  ' + p[1] + ': ' + val + ';'); });
+  var other = v('cs-other');
+  if (other) other.split('\n').forEach(function (l) { if (l.trim()) props.push('  ' + l.trim().replace(/;?$/, ';')); });
+  o.code = sel + ' {\n' + props.join('\n') + '\n}';
+  o.title = 'CSS rule';
+};
+
+BUILD.snippets = function (o) {
+  o.code = $('out').dataset.snippet || '';
+  o.title = $('out').dataset.snippetName || 'Snippet - pick one above';
+};
+
+/* ---- colour + type: live, no code output ---- */
+function paintColour() {
+  var a = v('col-a') || '#111111', b = v('col-b') || '#f7f5f0';
+  $('col-ab').style.cssText = 'padding:18px;font-size:12px;background:' + a + ';color:' + b;
+  $('col-ba').style.cssText = 'padding:18px;font-size:12px;background:' + b + ';color:' + a;
+  var ratio = contrast(a, b);
+  $('col-contrast').textContent = ratio ? 'Contrast ' + ratio.toFixed(2) + ':1 - ' +
+    (ratio >= 4.5 ? 'passes for body text' : ratio >= 3 ? 'large text only' : 'too low, hard to read') : '';
+}
+function lum(hex) {
+  var m = /^#?([a-f\d]{6})$/i.exec(hex.trim()); if (!m) return null;
+  var n = parseInt(m[1], 16), rgb = [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+  var c = rgb.map(function (x) { x /= 255; return x <= 0.03928 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4); });
+  return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+}
+function contrast(a, b) {
+  var la = lum(a), lb = lum(b); if (la === null || lb === null) return null;
+  return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
+}
+function initPalette() {
+  var box = $('col-pal'); box.innerHTML = '';
+  PALETTE.forEach(function (c) {
+    var s = document.createElement('button');
+    s.className = 'sw'; s.type = 'button'; s.style.background = c[0];
+    s.title = c[1] + ' ' + c[0] + ' - click for A, double-click for B';
+    s.onclick = function () { $('col-a').value = c[0]; paintColour(); };
+    s.ondblclick = function () { $('col-b').value = c[0]; paintColour(); };
+    box.appendChild(s);
+  });
+}
+function paintType() {
+  var d = $('ty-display');
+  d.textContent = v('ty-text') || 'The quick brown fox';
+  d.style.cssText = 'font-family:' + v('ty-font') + ';font-size:' + (v('ty-size') || '18px')
+    + ';font-weight:' + v('ty-weight') + ';font-style:' + v('ty-style')
+    + ';letter-spacing:' + (v('ty-ls') || '0') + ';line-height:' + (v('ty-lh') || '1.7');
+}
+
+/* ============ SNIPPETS ============ */
+var SNIPPETS = [
+  ['Pull quote','Large italic quote with a left rule',
+   '<blockquote style="border-left:3px solid #111;padding-left:20px;margin:32px 0;font-size:18px;line-height:1.6;font-style:italic;color:#333">\n  "Quote text here."\n</blockquote>'],
+  ['Person quote','Quote with attribution',
+   '<figure style="margin:32px 0">\n  <blockquote style="font-size:17px;line-height:1.7;font-style:italic;margin:0 0 12px;color:#333">"Quote text here."</blockquote>\n  <figcaption style="font-family:\'Courier New\',monospace;font-size:11px;color:#666;text-transform:uppercase;letter-spacing:1px">Name, Role</figcaption>\n</figure>'],
+  ['Two columns','Two equal columns of text',
+   '<div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;margin:32px 0">\n  <p>Left column.</p>\n  <p>Right column.</p>\n</div>'],
+  ['Caption','Small muted note under an image',
+   '<p style="font-family:\'Courier New\',monospace;font-size:11px;color:#666;margin-top:-20px;margin-bottom:32px;line-height:1.6">Caption text here.</p>'],
+  ['Mono label','Small uppercase label',
+   '<p style="font-family:\'Courier New\',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:#666;margin-bottom:8px">Label</p>'],
+  ['Labelled divider','Rule with a centred label',
+   '<div style="display:flex;align-items:center;gap:16px;margin:48px 0">\n  <div style="flex:1;height:1px;background:#ccc"></div>\n  <span style="font-family:\'Courier New\',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:#999">Section</span>\n  <div style="flex:1;height:1px;background:#ccc"></div>\n</div>'],
+  ['Info box','Bordered aside',
+   '<div style="border:1px solid #ccc;padding:20px 24px;margin:32px 0;background:#faf9f7">\n  <p style="font-family:\'Courier New\',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:#666;margin-bottom:10px">Note</p>\n  <p style="margin:0;line-height:1.7">Content here.</p>\n</div>'],
+  ['Highlight','Inline highlight band',
+   '<mark style="background:#f0ede8;padding:2px 5px">highlighted text</mark>']
+];
+(function initSnippets() {
+  var grid = $('snip-grid');
+  SNIPPETS.forEach(function (s) {
+    var b = document.createElement('button');
+    b.className = 'snip'; b.type = 'button';
+    b.innerHTML = '<b>' + s[0] + '</b><span>' + s[1] + '</span>';
+    b.onclick = function () {
+      document.querySelectorAll('.snip').forEach(function (x) { x.setAttribute('aria-pressed', 'false'); });
+      b.setAttribute('aria-pressed', 'true');
+      $('out').dataset.snippet = s[2]; $('out').dataset.snippetName = s[0];
+      render();
+    };
+    grid.appendChild(b);
+  });
+})();
+
+/* ============ LIGHTBOX ============ */
+function lbOpen(src, cap) {
+  $('lbImg').src = src;
+  $('lbCap').textContent = cap || '';
+  $('lb').classList.add('on');
+}
+$('lb').onclick = function () { $('lb').classList.remove('on'); };
+document.addEventListener('keydown', function (e) { if (e.key === 'Escape') $('lb').classList.remove('on'); });
+
+/* ============ WIRING ============ */
+document.addEventListener('input', function (e) {
+  if (e.target.closest('#p-colour')) paintColour();
+  if (e.target.closest('#p-type')) paintType();
+  render();
+});
+document.addEventListener('change', function (e) {
+  if (e.target.closest('#p-type')) paintType();
+  render();
+});
+document.querySelectorAll('[data-recent]').forEach(function (i) {
+  i.addEventListener('blur', function () { if (i.value.trim()) remember(i.dataset.recent, i.value.trim()); });
+});
+$('copyBtn').onclick = function () { copyText($('out').value, 'Code'); };
+$('copyRawBtn').onclick = function () { copyText($('outRaw').value, 'URL'); };
+$('clearBtn').onclick = function () {
+  document.querySelector('.panel.on').querySelectorAll('input[type=text], textarea').forEach(function (i) { i.value = ''; });
+  render(); toast('Cleared');
+};
+
+/* theme */
+function setTheme(t) {
+  document.documentElement.dataset.theme = t;
+  $('themeBtn').textContent = t === 'dark' ? 'Light' : 'Dark';
+  store('theme', t);
+}
+$('themeBtn').onclick = function () { setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'); };
+setTheme(store('theme') || 'light');
+
+/* boot: read this site's settings, then draw */
+function boot(cfg) {
+  applySettings(cfg);
+  var tabs = allTabs(), saved = store('tool');
+  current = tabs.indexOf(saved) >= 0 ? saved : tabs[0];
+  buildRail(); initPalette(); paintCards(); paintRecent(); paintColour(); paintType(); go(current);
+}
+fetch('studio.json', { cache: 'no-cache' })
+  .then(function (r) { return r.ok ? r.json() : null; })
+  .catch(function () { return null; })
+  .then(boot);
+</script>
+</body>
+</html>

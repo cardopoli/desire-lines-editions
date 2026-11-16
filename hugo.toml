@@ -16,6 +16,8 @@ disableKinds = ["taxonomy", "term"]
     branch = "main"
     short_title = "DLE"
     css = "css/site.css"
+    [params.kit.tools]
+      studio = ["Studio", "ISBN barcodes, QR codes, colours and type."]
 
 [markup.goldmark.renderer]
   unsafe = true

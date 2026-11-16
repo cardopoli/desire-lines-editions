@@ -116,3 +116,39 @@ collections:
         file: data/site.yml
         fields:
           - { name: email, label: Public email address, widget: string, required: false, hint: "Shown in the footer on every page." }
+      - name: studio
+        label: Studio
+        file: static/tools/studio.json
+        description: Which tabs the Studio (/tools/studio.html) shows, its name and colours
+        fields:
+          - { name: name, label: Name in the top bar, widget: string }
+          - name: tabs
+            label: Tabs to show
+            widget: select
+            multiple: true
+            options:
+              - { label: "Image embed", value: image }
+              - { label: "Layout (image grids)", value: layout }
+              - { label: "Audio player", value: audio }
+              - { label: "Playlist", value: playlist }
+              - { label: "Video", value: video }
+              - { label: "Gallery", value: gallery }
+              - { label: "iFrame", value: iframe }
+              - { label: "QR codes", value: qr }
+              - { label: "ISBN barcodes", value: isbn }
+              - { label: "Colour", value: colour }
+              - { label: "CSS", value: css }
+              - { label: "Type", value: type }
+              - { label: "Snippets", value: snippets }
+              - { label: "Reference", value: ref }
+          - { name: accent, label: Accent colour, widget: color, required: false }
+          - { name: accent_dark, label: Accent colour in dark mode, widget: color, required: false }
+          - { name: dropbox_proxy, label: Dropbox proxy address, widget: string, required: false, hint: "Only needed for the embed tabs." }
+          - name: palette
+            label: Swatches in the Colour tab
+            widget: list
+            required: false
+            summary: "{{fields.name}} {{fields.colour}}"
+            fields:
+              - { name: colour, label: Colour, widget: color }
+              - { name: name, label: Name, widget: string }

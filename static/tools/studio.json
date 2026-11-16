@@ -1,0 +1,11 @@
+{
+  "name": "Desire Lines",
+  "tabs": ["qr", "isbn", "colour", "type"],
+  "accent": "#5f6b55",
+  "accent_dark": "#f0a04a",
+  "palette": [
+    { "colour": "#2f3a2c", "name": "Olive" }, { "colour": "#f0a04a", "name": "Amber" },
+    { "colour": "#5f6b55", "name": "Moss" }, { "colour": "#090c0b", "name": "Ink" },
+    { "colour": "#ffffff", "name": "White" }, { "colour": "#000000", "name": "Black" }
+  ]
+}
