@@ -1,5 +1,5 @@
 // Cloudflare (Workers with static assets): builds the Hugo site and serves the public/ folder.
-// src/worker.js only handles /dropbox and /files/ (PDFs from Dropbox or Cloudflare storage).
+// src/worker.js only handles /dropbox, /files/, /pdf/ and /_pdf-map.json (PDFs from Dropbox or Cloudflare storage).
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "desire-lines-editions",
