@@ -47,6 +47,7 @@ img { max-width: 100%; display: block; }
 .prose p, .prose ul, .prose ol { margin-bottom: 1em; }
 .prose ul, .prose ol { padding-left: 1.2em; }
 .prose h2 { font-size: 15px; margin: 2em 0 .5em; }
+.prose button.more { font: 700 12px var(--ui); color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
 .page-title { font-size: calc(clamp(24px, 2.6vw, 32px) * var(--ts)); line-height: 1.1; padding: 10vh 0 5vh; }
 .placeholder { background: #fffbe0; color: #141414; outline: 1px dashed #c9b850; outline-offset: 2px; }
 
