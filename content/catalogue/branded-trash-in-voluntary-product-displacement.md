@@ -38,6 +38,8 @@ A can of Coca-Cola on the beach, to me, is the equivalent of a paid billboard on
 
 The blame is shifted to the consumer, who is the one practically littering.
 
+<!--more-->
+
 Moving forward: it is no secret that wealthier areas of the world are less likely to be heavily littered; this is due to a combination of factors including education, population density, and better and more reliable waste management services.
 
 On the other hand, areas with a high concentration of housing, a lower educational index, and a lower income are more likely to be polluted or poorly waste-managed.

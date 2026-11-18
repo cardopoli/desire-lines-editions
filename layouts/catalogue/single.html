@@ -12,7 +12,9 @@
       <h1>{{ .Title }}</h1>
       {{ with .Params.subtitle }}<p class="subtitle">{{ . }}</p>{{ end }}
       {{ with .Params.excerpt }}<p class="excerpt">{{ . }}</p>{{ end }}
-      {{ with .Content }}<div class="prose">{{ . }}</div>{{ end }}
+      {{- /* A <!--more--> line in the text folds everything after it behind "Read more". */ -}}
+      {{ if .Truncated }}<div class="prose">{{ .Summary }}<button type="button" class="more" onclick="this.nextElementSibling.hidden=false;this.remove()">Read more</button><div hidden>{{ .ContentWithoutSummary }}</div></div>
+      {{ else }}{{ with .Content }}<div class="prose">{{ . }}</div>{{ end }}{{ end }}
       <div class="details">
         {{ partial "details.html" . }}
         {{ with .Params.genre }}<p>{{ . }}</p>{{ end }}
